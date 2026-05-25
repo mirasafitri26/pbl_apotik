@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tambah Data Obat</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:'Poppins',sans-serif;
+    }
+
+   html,body{
+  width:100%;
+  min-height:100vh;
+  margin:0;
+  padding:0;
+}
+
+body{
+  background:#ece9e9;
+  overflow-x:hidden;
+}
+
+.container{
+  width:100%;
+  min-height:100vh;
+  background:#ece9e9;
+  display:flex;
+}
+
+    /* SIDEBAR */
+
+   /* SIDEBAR */
+
+.sidebar{
+  width:220px;
+  background:#ffffff;
+  padding:20px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+
+  position:fixed;
+  top:0;
+  left:0;
+  bottom:0;
+}
+
+.top-sidebar{
+  display:flex;
+  flex-direction:column;
+  gap:18px;
+}
+
+.logo{
+  display:flex;
+  justify-content:center;
+  margin-bottom:10px;
+}
+
+.logo img{
+  width:120px;
+}
+
+.menu-box{
+  background:white;
+  padding:18px;
+  border-radius:8px;
+
+  display:flex;
+  align-items:center;
+  gap:14px;
+
+  box-shadow:0 2px 6px rgba(0,0,0,0.15);
+
+  color:#006b74;
+  font-weight:600;
+  cursor:pointer;
+}
+
+.menu-icon{
+  width:20px;
+  height:20px;
+}
+
+.menu-title{
+  font-size:13px;
+}
+
+.logout{
+  background:red;
+  color:white;
+  border:none;
+  padding:12px;
+  border-radius:6px;
+  cursor:pointer;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+
+  font-size:12px;
+  font-weight:500;
+}
+
+.logout img{
+  width:16px;
+}
+
+    /* MAIN */
+
+    .main{
+    flex:1;
+    margin-left:220px;     /* AGAR TIDAK KETIMPA SIDEBAR */
+    padding:16px 22px;
+    min-height:100vh;
+}
+
+    .main-wrapper{
+      width:100%;
+      height:100%;
+      padding:20px 25px;
+      position:relative;
+    }
+
+    /* TOPBAR */
+
+    .topbar{
+      display:flex;
+      justify-content:flex-end;
+      align-items:center;
+      margin-bottom:20px;
+    }
+
+    .profile{
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+
+    .profile img{
+      width:45px;
+      height:45px;
+      border-radius:50%;
+      object-fit:cover;
+    }
+
+    .profile-text{
+      font-size:12px;
+      line-height:1.3;
+    }
+
+    .profile-text strong{
+      font-size:13px;
+      color:#222;
+    }
+
+    /* MODAL FORM */
+
+    .modal{
+  width:420px;
+  background:white;
+  border-radius:16px;
+  padding:35px 35px 25px;
+  position:absolute;
+  
+  top:75%;
+  left:50%;
+  
+  transform:translate(-50%, -50%);
+}
+
+    .close{
+      position:absolute;
+      top:18px;
+      right:22px;
+      font-size:28px;
+      color:#888;
+      cursor:pointer;
+    }
+
+    .modal h2{
+      font-size:24px;
+      color:#222;
+      margin-bottom:25px;
+      font-weight:700;
+    }
+
+    .form-group{
+      margin-bottom:16px;
+    }
+
+    .form-group label{
+      display:block;
+      font-size:13px;
+      font-weight:600;
+      margin-bottom:8px;
+      color:#222;
+    }
+
+    .form-group input,
+    .form-group select{
+      width:100%;
+      padding:14px;
+      border:1.5px solid #74d8d1;
+      border-radius:6px;
+      outline:none;
+      font-size:13px;
+      color:#444;
+      background:white;
+    }
+
+    .form-group input::placeholder{
+      color:#999;
+    }
+
+    /* BUTTON */
+
+    .button-group{
+      display:flex;
+      justify-content:space-between;
+      margin-top:22px;
+      gap:20px;
+    }
+
+    .btn{
+      flex:1;
+      border:none;
+      padding:13px;
+      border-radius:6px;
+      font-size:13px;
+      font-weight:600;
+      cursor:pointer;
+    }
+
+    .btn-cancel{
+      background:red;
+      color:white;
+    }
+
+    .btn-save{
+      background:#006b74;
+      color:white;
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <!-- SIDEBAR -->
+
+    <div class="sidebar">
+
+      <div class="top-sidebar">
+
+        <div class="logo">
+          <img src="c:\Users\LENOVO\Downloads\desain uiux\Logo Rs.png">
+        </div>
+
+        <div class="menu-box">
+          <img src="c:\Users\LENOVO\Downloads\desain uiux\Rumah.png" class="menu-icon">
+          <div class="menu-title">Dashboard</div>
+        </div>
+
+        <div class="menu-box">
+          <img src="c:\Users\LENOVO\Downloads\desain uiux\Obat.png" class="menu-icon">
+          <div class="menu-title">Data Obat</div>
+        </div>
+
+      </div>
+
+      <button class="logout">
+        <img src="c:\Users\LENOVO\Downloads\desain uiux\panah lg.png">
+        Log Out
+      </button>
+
+    </div>
+
+    <!-- MAIN -->
+
+    <div class="main">
+
+      <div class="main-wrapper">
+
+        <!-- TOPBAR -->
+
+        <div class="topbar">
+
+          <div class="profile">
+
+            <img src="c:\Users\LENOVO\Downloads\desain uiux\Foto Admin.png">
+
+            <div class="profile-text">
+              <strong>Admin Apotik</strong><br>
+              Mutia Amelia
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- MODAL -->
+
+        <div class="modal">
+
+          <div class="close">&times;</div>
+
+          <h2>Tambah Data Obat</h2>
+
+          <form>
+
+            <div class="form-group">
+              <label>Nama Obat</label>
+              <input type="text" placeholder="Masukkan Nama Obat">
+            </div>
+
+            <div class="form-group">
+              <label>Jenis Obat</label>
+              <input type="text" placeholder="Masukkan Jenis Obat">
+            </div>
+
+            <div class="form-group">
+              <label>Stok</label>
+              <input type="number" placeholder="Masukkan Stok">
+            </div>
+
+            <div class="form-group">
+              <label>Harga Beli</label>
+              <input type="text" placeholder="Masukkan Harga">
+            </div>
+
+            <div class="form-group">
+              <label>Harga Jual</label>
+              <input type="text" placeholder="Masukkan Harga">
+            </div>
+
+            <div class="form-group">
+              <label>Tanggal Kadaluwarsa</label>
+
+              <select>
+                <option>Pilih Tanggal</option>
+                <option>2026-01-01</option>
+                <option>2027-01-01</option>
+                <option>2028-01-01</option>
+              </select>
+
+            </div>
+
+            <div class="button-group">
+
+              <button type="button" class="btn btn-cancel">
+                Batal
+              </button>
+
+              <button type="submit" class="btn btn-save">
+                Simpan
+              </button>
+
+            </div>
+
+          </form>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notifikasi Berhasil</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:'Poppins',sans-serif;
+    }
+
+    body{
+      background:#1f1f1f;
+    }
+
+    .container{
+      width:100%;
+      height:100vh;
+      background:#ece9e9;
+      display:flex;
+      position:relative;
+      overflow:hidden;
+    }
+
+    /* SIDEBAR */
+
+    .sidebar{
+  width:220px;
+  background:#ffffff;
+  padding:20px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+}
+
+    .top-sidebar{
+      display:flex;
+      flex-direction:column;
+      gap:18px;
+    }
+
+    .logo{
+      display:flex;
+      justify-content:center;
+      margin-bottom:10px;
+    }
+
+    .logo img{
+      width:120px;
+    }
+
+    .menu-box{
+      background:white;
+      padding:18px;
+      border-radius:8px;
+
+      display:flex;
+      align-items:center;
+      gap:14px;
+
+      box-shadow:0 2px 6px rgba(0,0,0,0.15);
+
+      color:#006b74;
+      font-weight:600;
+      cursor:pointer;
+    }
+
+    .menu-icon{
+      width:20px;
+      height:20px;
+    }
+
+    .menu-title{
+      font-size:13px;
+    }
+
+    .logout{
+      background:red;
+      color:white;
+      border:none;
+      padding:12px;
+      border-radius:6px;
+      cursor:pointer;
+
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+
+      font-size:12px;
+      font-weight:500;
+    }
+
+    .logout img{
+      width:16px;
+    }
+
+    /* MAIN */
+
+    .main{
+      flex:1;
+      padding:14px;
+    }
+
+    .main-wrapper{
+      width:100%;
+      height:100%;
+      background:#e7e4e4;
+      border-radius:18px;
+      padding:18px 24px;
+      position:relative;
+    }
+
+    /* TOPBAR */
+
+    .topbar{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:18px;
+    }
+
+    .title h1{
+      font-size:24px;
+      color:#222;
+    }
+
+    .title p{
+      font-size:12px;
+      color:#888;
+    }
+
+    .profile{
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+
+    .profile img{
+      width:42px;
+      height:42px;
+      border-radius:50%;
+      object-fit:cover;
+    }
+
+    .profile-text{
+      font-size:12px;
+      line-height:1.3;
+    }
+
+    .profile-text strong{
+      font-size:13px;
+    }
+
+    /* SEARCH */
+
+    .search-box{
+      background:white;
+      padding:14px;
+      border-radius:10px;
+      box-shadow:0 2px 5px rgba(0,0,0,0.15);
+      margin-bottom:18px;
+    }
+
+    .search-box label{
+      display:block;
+      font-size:12px;
+      margin-bottom:8px;
+      font-weight:500;
+    }
+
+    .search-box input{
+      width:100%;
+      padding:14px;
+      border:1px solid #6fdad1;
+      border-radius:6px;
+      outline:none;
+    }
+
+    /* BUTTON */
+
+    .button-area{
+      display:flex;
+      justify-content:flex-end;
+      margin-bottom:14px;
+    }
+
+    .add-btn{
+      background:white;
+      border:1px solid #6fdad1;
+      color:#6fdad1;
+      padding:10px 18px;
+      border-radius:6px;
+      font-size:12px;
+      cursor:pointer;
+    }
+
+    /* TABLE */
+
+    .table-box{
+      background:white;
+      border-radius:14px;
+      padding:18px;
+    }
+
+    table{
+      width:100%;
+      border-collapse:collapse;
+      font-size:12px;
+    }
+
+    thead{
+      background:#44cbbb;
+      color:white;
+    }
+
+    th{
+      padding:12px;
+      font-weight:500;
+    }
+
+    td{
+      padding:10px;
+      border:1px solid #eee;
+      text-align:center;
+    }
+
+    /* OVERLAY */
+
+    .overlay{
+  position:absolute;
+
+  top:0;
+  right:0;
+
+  width:calc(100% - 220px);
+  height:100%;
+
+  background:rgba(255,255,255,0.55);
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+    /* SUCCESS BOX */
+
+    .success-box{
+      width:280px;
+      background:white;
+      border:2px solid #cfcfcf;
+      border-radius:14px;
+      padding:30px 20px;
+      text-align:center;
+
+      box-shadow:0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    .check-circle{
+      width:78px;
+      height:78px;
+      background:#0b4f3e;
+      border-radius:50%;
+
+      margin:0 auto 22px;
+
+      display:flex;
+      justify-content:center;
+      align-items:center;
+
+      color:white;
+      font-size:48px;
+      font-weight:bold;
+    }
+
+    .success-text{
+      background:#f1efef;
+      border-radius:12px;
+      padding:18px 10px;
+
+      color:#0b4f3e;
+      font-size:18px;
+      font-weight:700;
+      line-height:1.3;
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <!-- SIDEBAR -->
+
+    <div class="sidebar">
+
+      <div class="top-sidebar">
+
+        <div class="logo">
+          <img src="c:\Users\LENOVO\Downloads\desain uiux\Logo Rs.png">
+        </div>
+
+        <div class="menu-box">
+          <img src="c:\Users\LENOVO\Downloads\desain uiux\Rumah.png" class="menu-icon">
+          <div class="menu-title">Dashboard</div>
+        </div>
+
+        <div class="menu-box">
+          <img src="c:\Users\LENOVO\Downloads\desain uiux\Obat.png" class="menu-icon">
+          <div class="menu-title">Data Obat</div>
+        </div>
+
+      </div>
+
+      <button class="logout">
+        <img src="c:\Users\LENOVO\Downloads\desain uiux\panah lg.png">
+        Log Out
+      </button>
+
+    </div>
+
+    <!-- MAIN -->
+
+    <div class="main">
+
+      <div class="main-wrapper">
+
+        <!-- TOPBAR -->
+
+        <div class="topbar">
+
+          <div class="title">
+            <h1>Data Obat</h1>
+            <p>List data Obat</p>
+          </div>
+
+          <div class="profile">
+
+            <img src="c:\Users\LENOVO\Downloads\desain uiux\Foto Admin.png">
+
+            <div class="profile-text">
+              <strong>Admin Apotik</strong><br>
+              Mutia Amelia
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- SEARCH -->
+
+        <div class="search-box">
+
+          <label>Cari Nama Obat</label>
+
+          <input type="text" placeholder="Input Nama Obat Yang Di Cari">
+
+        </div>
+
+        <!-- BUTTON -->
+
+        <div class="button-area">
+          <button class="add-btn">➕ Tambah</button>
+        </div>
+
+        <!-- TABLE -->
+
+        <div class="table-box">
+
+          <table>
+
+            <thead>
+              <tr>
+                <th>ID Obat</th>
+                <th>Nama Obat</th>
+                <th>Jenis</th>
+                <th>Stok</th>
+                <th>Harga</th>
+                <th>Kadaluwarsa</th>
+              </tr>
+            </thead>
+
+            <tbody>
+
+              <tr>
+                <td>0001</td>
+                <td>Cefadroxil 500mg</td>
+                <td>Antibiotik</td>
+                <td>80</td>
+                <td>15.000</td>
+                <td>2027-05-01</td>
+              </tr>
+
+              <tr>
+                <td>0002</td>
+                <td>Mylanta Cair</td>
+                <td>Antasida</td>
+                <td>45</td>
+                <td>18.000</td>
+                <td>2026-07-07</td>
+              </tr>
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- SUCCESS NOTIFICATION -->
+
+    <div class="overlay">
+
+      <div class="success-box">
+
+        <div class="check-circle">
+          ✓
+        </div>
+
+        <div class="success-text">
+          OBAT <br>
+          BERHASIL DI <br>
+          TAMBAHKAN
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</body>
+</html>
