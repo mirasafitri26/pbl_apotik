@@ -3,22 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>E-Resep</title>
-
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
-
 :root{
     --primary:#005F6B;
-    --secondary:#31D4BE;
+    --secondary:#2FD3BE;
     --bg:#ECECEC;
-    --card:#F7F7F7;
+    --card:#F6F6F6;
+    --white:#FFFFFF;
+    --border:#D8D8D8;
     --text:#1F2937;
     --muted:#9CA3AF;
-    --border:#D6D6D6;
-    --white:#FFFFFF;
     --danger:#FF1E1E;
 }
 
@@ -36,7 +33,6 @@ body{
 }
 
 /* SIDEBAR */
-
 .sidebar{
     width:220px;
     background:#F8F8F8;
@@ -50,9 +46,9 @@ body{
 }
 
 .logo{
+    margin-bottom:20px;
     display:flex;
     justify-content:center;
-    margin-bottom:20px;
 }
 
 .logo img{
@@ -66,20 +62,26 @@ body{
 }
 
 .menu-box{
-    background:white;
+    background:#fff;
     padding:16px 18px;
     border-radius:10px;
     display:flex;
     align-items:center;
-    gap:12px;
-    color:var(--primary);
+    gap:14px;
+    color:#005F6B;
     font-weight:600;
     box-shadow:0 3px 8px rgba(0,0,0,0.10);
     cursor:pointer;
+    transition:.2s;
 }
 
-.menu-box img{
+.menu-box:hover{
+    transform:translateY(-2px);
+}
+
+.menu-icon{
     width:20px;
+    height:20px;
 }
 
 .menu-title{
@@ -88,20 +90,24 @@ body{
 
 .logout{
     margin-top:auto;
-    background:var(--danger);
-    color:white;
     border:none;
-    padding:12px;
+    background:red;
+    color:white;
+    padding:13px;
     border-radius:8px;
     font-weight:600;
     cursor:pointer;
-
     display:flex;
-    align-items:center;
     justify-content:center;
-    gap:8px;
+    align-items:center;
+    gap:10px;
+    box-shadow:0 3px 8px rgba(255,0,0,.25);
+    transition: .2s;
+}
 
-    box-shadow:0 4px 8px rgba(255,0,0,.2);
+.logout:hover {
+    background: #cc0000;
+    transform: translateY(-2px);
 }
 
 .logout img{
@@ -109,28 +115,26 @@ body{
 }
 
 /* MAIN */
-
 .main{
     flex:1;
     margin-left:220px;
-    padding:14px;
+    padding:10px;
 }
 
+/* WRAPPER */
 .wrapper{
     background:#F4F4F4;
-    border:1px solid #9CC7C7;
+    border:1px solid #A9CACA;
     border-radius:2px;
-    min-height:100vh;
-    padding:12px 18px;
+    padding:8px 12px;
 }
 
 /* HEADER */
-
 .header{
     display:flex;
     justify-content:space-between;
     align-items:center;
-    margin-bottom:20px;
+    margin-bottom:16px;
 }
 
 .header-title{
@@ -140,8 +144,8 @@ body{
 }
 
 .header-sub{
-    font-size:11px;
-    color:#A0A0A0;
+    font-size:10px;
+    color:#B0B0B0;
 }
 
 .profile{
@@ -151,42 +155,40 @@ body{
 }
 
 .profile img{
-    width:42px;
-    height:42px;
+    width:40px;
+    height:40px;
     border-radius:50%;
     object-fit:cover;
 }
 
 .profile-text{
-    font-size:11px;
+    font-size:10px;
     line-height:1.3;
 }
 
 .profile-text strong{
-    font-size:12px;
+    font-size:11px;
 }
 
-/* CARD LIST */
-
+/* RESEP CONTAINER */
 .resep-container{
     background:#FAFAFA;
-    border-radius:10px;
+    border-radius:8px;
     padding:8px;
-    box-shadow:0 2px 6px rgba(0,0,0,.08);
+    border:1px solid #D7D7D7;
+    box-shadow:0 2px 6px rgba(0,0,0,.05);
 }
 
+/* ITEM LIST */
 .resep-item{
     display:flex;
     justify-content:space-between;
     align-items:center;
-
     background:#ECECEC;
-    border-radius:6px;
-
-    padding:8px 12px;
+    border-radius:5px;
+    padding:6px 10px;
     margin-bottom:8px;
-
-    box-shadow:0 2px 5px rgba(0,0,0,.08);
+    box-shadow:0 2px 5px rgba(0,0,0,.06);
 }
 
 .left{
@@ -196,27 +198,24 @@ body{
 }
 
 /* NOMOR */
-
 .nomor{
-    width:44px;
-    height:44px;
+    width:42px;
+    height:42px;
     background:var(--primary);
     color:white;
     border-radius:4px;
-
     display:flex;
     justify-content:center;
     align-items:center;
-
-    font-size:18px;
+    font-size:17px;
     font-weight:700;
 }
 
 /* INFO */
-
 .info h3{
     color:var(--primary);
     font-size:14px;
+    font-weight:700;
     margin-bottom:2px;
 }
 
@@ -226,224 +225,609 @@ body{
     line-height:1.4;
 }
 
-/* BUTTON */
-
+/* BUTTON PADA HALAMAN UTAMA */
 .pilih-btn{
     width:85px;
     height:40px;
-
     border:none;
     border-radius:4px;
-
     background:var(--primary);
     color:white;
-
     font-size:14px;
     font-weight:700;
-
     cursor:pointer;
     transition:.2s;
 }
 
-.pilih-btn:hover{
-    transform:scale(1.03);
+.pilih-btn:hover {
+    background: #014852;
 }
 
+/* MODAL STYLING */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.modal-content {
+    background: white;
+    width: 490px;
+    max-height: 92vh;
+    border-radius: 14px;
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 25px rgba(0,0,0,0.2);
+    animation: zoomIn 0.2s ease-out;
+}
+
+@keyframes zoomIn {
+    from { opacity: 0; transform: scale(0.97); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.modal-header h2 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1A2E3B;
+}
+
+.close-btn {
+    font-size: 22px;
+    cursor: pointer;
+    color: #9CA3AF;
+    transition: .2s;
+}
+
+.close-btn:hover {
+    color: #1F2937;
+}
+
+.modal-section-title {
+    font-size: 11px;
+    font-weight: 700;
+    color: #7A8B94;
+    margin-top: 14px;
+    margin-bottom: 8px;
+    letter-spacing: 0.5px;
+}
+
+/* NOTIFIKASI ERROR (Tampilan seperti image_5715be.png) */
+.warning-resep {
+    font-size: 11px;
+    font-weight: 700;
+    color: #FF1E1E;
+    text-align: center;
+    margin-bottom: 10px;
+    letter-spacing: 2px;
+    display: none; /* Sembunyi default */
+}
+
+/* KOTAK RESEP TERPILIH */
+.selected-resep-box {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    border: 1px solid #EAEFF2;
+    border-radius: 10px;
+    padding: 14px;
+    background: #FFF;
+}
+
+.modal-nomor-box {
+    width: 48px;
+    height: 44px;
+    background: #007A87;
+    color: white;
+    border-radius: 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.modal-info-box h3 {
+    font-size: 14px;
+    font-weight: 700;
+    color: #005F6B;
+}
+
+/* CONTAINER DAFTAR OBAT SCROLLABLE */
+.obat-container {
+    flex: 1;
+    overflow-y: auto;
+    margin-bottom: 16px;
+    padding-right: 4px;
+}
+
+/* KARTU OBAT HORIZONTAL */
+.obat-card {
+    position: relative;
+    border: 1px solid #EAEFF2;
+    border-radius: 10px;
+    padding: 14px;
+    margin-bottom: 10px;
+    background: #FFF;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+}
+
+.obat-info-left {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    width: 100%;
+}
+
+.obat-meta-row {
+    display: flex;
+    align-items: center;
+}
+
+.obat-id {
+    color: #2FD3BE;
+    font-weight: 700;
+    font-size: 11px;
+}
+
+.obat-stok {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    color: #9CA3AF;
+    font-size: 11px;
+}
+
+.obat-name {
+    font-size: 14px;
+    font-weight: 700;
+    color: #1A2E3B;
+}
+
+.obat-type {
+    font-size: 10px;
+    color: #9CA3AF;
+}
+
+.obat-exp-row {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 10px;
+    color: #9CA3AF;
+    margin-top: 4px;
+    margin-bottom: 4px;
+}
+
+/* TOMBOL COUNTER BULAT */
+.counter-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border: 1px solid #EAEFF2;
+    border-radius: 20px;
+    padding: 4px 10px;
+    background: #FFF;
+    align-self: flex-start;
+}
+
+.btn-counter-action {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    background: transparent;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 0.1s;
+}
+
+.btn-counter-action.minus {
+    color: #FF4D4D;
+    border-color: #FF4D4D;
+}
+
+.btn-counter-action.plus {
+    color: #2FD3BE;
+    border-color: #2FD3BE;
+}
+
+.btn-counter-action:active {
+    transform: scale(0.9);
+}
+
+.count-number {
+    font-size: 13px;
+    font-weight: 700;
+    color: #1A2E3B;
+    min-width: 16px;
+    text-align: center;
+}
+
+/* FOOTER ACTION BUTTONS */
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    padding-top: 14px;
+}
+
+.btn-batal {
+    background: white;
+    border: 1px solid #E2E8F0;
+    color: #4A5568;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 8px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.btn-proses {
+    background: #007A87;
+    border: none;
+    color: white;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 8px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.btn-proses:hover {
+    background: #005F6B;
+}
+
+.btn-proses:disabled {
+    background: #9CA3AF;
+    cursor: not-allowed;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 20px;
+    color: #9CA3AF;
+    font-size: 13px;
+}
 </style>
 </head>
 
 <body>
 
-<!-- SIDEBAR -->
-
 <div class="sidebar">
-
     <div>
-
         <div class="logo">
-            <img src="c:\Users\LENOVO\Downloads\desain uiux\Logo Rs.png">
+            <img src="../img/Logo Rs.png">
         </div>
-
         <div class="top-sidebar">
-
-            <div class="menu-box">
-                <img src="c:\Users\LENOVO\Downloads\desain uiux\Rumah.png">
+            <div class="menu-box" onclick="window.location.href='petugas_apotik.html'">
+                <img src="../img/Rumah.png" class="menu-icon">
                 <div class="menu-title">Dashboard</div>
             </div>
-
-            <div class="menu-box">
-                <img src="c:\Users\LENOVO\Downloads\desain uiux\e-resep.png">
+            <div class="menu-box" onclick="window.location.href='e-resep.html'">
+                <img src="../img/e-resep.png" class="menu-icon">
                 <div class="menu-title">E-Resep</div>
             </div>
-
         </div>
-
     </div>
-
-    <button class="logout">
-        <img src="c:\Users\LENOVO\Downloads\desain uiux\panah lg.png">
-        Log Out
+    <button class="logout" onclick="window.location.href='../Login/login.html'">
+        <img src="../img/panah lg.png">Log Out
     </button>
-
 </div>
 
-<!-- MAIN -->
-
 <div class="main">
-
     <div class="wrapper">
 
-        <!-- HEADER -->
-
         <div class="header">
-
             <div>
                 <div class="header-title">E-Resep</div>
                 <div class="header-sub">List Resep Obat Yang Tersedia</div>
             </div>
-
             <div class="profile">
-
-                <img src="c:\Users\LENOVO\Downloads\desain uiux\Foto Admin.png">
-
+                <img src="../img/Foto Admin.png">
                 <div class="profile-text">
                     <strong>Petugas Apotik</strong><br>
                     Mutia Amelia
                 </div>
-
             </div>
-
         </div>
 
-        <!-- LIST RESEP -->
-
         <div class="resep-container">
-
-            <!-- ITEM 1 -->
-
             <div class="resep-item">
-
                 <div class="left">
-
                     <div class="nomor">001</div>
-
                     <div class="info">
                         <h3>Resep</h3>
                         <p>1x Mylanta Cair 50ml</p>
                         <p>1x Paracetamol</p>
                     </div>
-
                 </div>
-
-                <button class="pilih-btn">Pilih</button>
-
+                <button class="pilih-btn" onclick="openModal('001', '1x Mylanta Cair 50ml', '1x Paracetamol')">Pilih</button>
             </div>
 
-            <!-- ITEM 2 -->
-
             <div class="resep-item">
-
                 <div class="left">
-
                     <div class="nomor">002</div>
-
                     <div class="info">
                         <h3>Resep</h3>
                         <p>1x Sangobion</p>
                         <p>1x Enervon-C</p>
                     </div>
-
                 </div>
-
-                <button class="pilih-btn">Pilih</button>
-
+                <button class="pilih-btn" onclick="openModal('002', '1x Sangobion', '1x Enervon-C')">Pilih</button>
             </div>
 
-            <!-- ITEM 3 -->
-
             <div class="resep-item">
-
                 <div class="left">
-
                     <div class="nomor">003</div>
-
                     <div class="info">
                         <h3>Resep</h3>
                         <p>1x Sangobion</p>
                         <p>1x Cefadroxil 500mg</p>
                     </div>
-
                 </div>
-
-                <button class="pilih-btn">Pilih</button>
-
+                <button class="pilih-btn" onclick="openModal('003', '1x Sangobion', '1x Cefadroxil 500mg')">Pilih</button>
             </div>
 
-            <!-- ITEM 4 -->
-
             <div class="resep-item">
-
                 <div class="left">
-
                     <div class="nomor">004</div>
-
                     <div class="info">
                         <h3>Resep</h3>
                         <p>1x Sangobion &nbsp;&nbsp; 1x Cefadroxil 500mg</p>
                         <p>1x Enervon-C &nbsp;&nbsp; 1x Diapet</p>
                     </div>
-
                 </div>
-
-                <button class="pilih-btn">Pilih</button>
-
+                <button class="pilih-btn" onclick="openModal('004', '1x Sangobion &nbsp;&nbsp; 1x Cefadroxil 500mg', '1x Enervon-C &nbsp;&nbsp; 1x Diapet')">Pilih</button>
             </div>
 
-            <!-- ITEM 5 -->
-
             <div class="resep-item">
-
                 <div class="left">
-
                     <div class="nomor">005</div>
-
                     <div class="info">
                         <h3>Resep</h3>
                         <p>1x Sangobion &nbsp;&nbsp; 1x Rohto Cool 7ml</p>
                         <p>1x Enervon-C</p>
                     </div>
-
                 </div>
-
-                <button class="pilih-btn">Pilih</button>
-
+                <button class="pilih-btn" onclick="openModal('005', '1x Sangobion &nbsp;&nbsp; 1x Rohto Cool 7ml', '1x Enervon-C')">Pilih</button>
             </div>
 
-            <!-- ITEM 6 -->
-
             <div class="resep-item">
-
                 <div class="left">
-
                     <div class="nomor">006</div>
-
                     <div class="info">
                         <h3>Resep</h3>
                         <p>1x Diapet</p>
                         <p>1x Paracetamol</p>
                     </div>
-
                 </div>
-
-                <button class="pilih-btn">Pilih</button>
-
+                <button class="pilih-btn" onclick="openModal('006', '1x Diapet', '1x Paracetamol')">Pilih</button>
             </div>
-
         </div>
 
     </div>
-
 </div>
+
+<div id="resepModal" class="modal-overlay">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Detail Resep & Obat</h2>
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+        </div>
+
+        <div class="modal-section-title">RESEP TERPILIH</div>
+        <div class="selected-resep-box">
+            <div class="modal-nomor-box" id="modalNomor">001</div>
+            <div class="modal-info-box">
+                <h3>Resep</h3>
+                <div id="modalDetailObat"></div>
+            </div>
+        </div>
+
+        <div class="modal-section-title">DAFTAR OBAT (LIST OBAT)</div>
+        
+        <div class="warning-resep" id="warningResep">RESEP TIDAK SESUAI</div>
+
+        <div class="obat-container" id="modalListObat">
+            </div>
+
+        <div class="modal-footer">
+            <button class="btn-batal" onclick="closeModal()">Batal</button>
+            <button class="btn-proses" id="btnProses" onclick="window.location.href='e-resep done proto.html'">Proses Resep</button>
+        </div>
+    </div>
+</div>
+
+<script>
+// Objek penyimpan aturan resep yang sedang aktif
+let aturanResepAktif = {};
+
+function loadObatKeModal() {
+    let dataObat = JSON.parse(localStorage.getItem("dataObat")) || [];
+    let container = document.getElementById("modalListObat");
+    container.innerHTML = ""; 
+
+    if (dataObat.length === 0) {
+        container.innerHTML = `<div class="empty-state">Belum ada data obat dari Admin.</div>`;
+        return;
+    }
+
+    dataObat.forEach((obat, index) => {
+        let formattedID = String(index + 1).padStart(4, '0');
+
+        container.innerHTML += `
+            <div class="obat-card" data-nama="${obat.nama.toLowerCase()}">
+                <div class="obat-info-left">
+                    <div class="obat-meta-row">
+                        <span class="obat-id">#${formattedID}</span>
+                    </div>
+                    <span class="obat-stok">Stok: ${obat.stok}</span>
+                    <div class="obat-name">${obat.nama}</div>
+                    <div class="obat-type">${obat.jenis}</div>
+                    <div class="obat-exp-row">🗓️ Exp: ${obat.expired || '-'}</div>
+                    
+                    <div class="counter-wrapper">
+                        <button class="btn-counter-action minus" onclick="minCount(this)">-</button>
+                        <span class="count-number">0</span>
+                        <button class="btn-counter-action plus" onclick="addCount(this)">+</button>
+                    </div>
+                </div>
+            </div>
+        `;
+    });
+}
+
+function openModal(nomor, obat1, obat2) {
+    document.getElementById("modalNomor").innerText = nomor;
+    
+    let detailHTML = `<p style="font-size:11px; color:#2FD3BE; font-weight:500;">${obat1}</p>`;
+    if(obat2) {
+        detailHTML += `<p style="font-size:11px; color:#2FD3BE; font-weight:500;">${obat2}</p>`;
+    }
+    document.getElementById("modalDetailObat").innerHTML = detailHTML;
+    
+    // Ekstrak aturan resep sebelum menampilkan modal
+    parseAturanResep(obat1, obat2);
+    
+    loadObatKeModal();
+    checkKesalahanResep(); // Reset validasi saat modal buka
+    
+    document.getElementById("resepModal").style.display = "flex";
+}
+
+// Fungsi mengekstrak text string "1x Paracetamol" menjadi object aturan: paracetamol: 1
+function parseAturanResep(o1, o2) {
+    aturanResepAktif = {}; 
+    let combinedText = o1 + (o2 ? " " + o2 : "");
+    combinedText = combinedText.replace(/&nbsp;/g, ' '); // Bersihkan entities
+
+    // regex mencari pola angka + "x" + nama_obat
+    let regex = /(\d+)x\s+([^0-9]+(?:\s+[^0-9\s]+)*)/gi;
+    let match;
+    
+    while ((match = regex.exec(combinedText)) !== null) {
+        let jumlah = parseInt(match[1]);
+        let nama = match[2].trim().toLowerCase();
+        aturanResepAktif[nama] = jumlah;
+    }
+}
+
+// Fungsi VALIDASI KUSTOM: Hanya muncul error jika obat salah atau kuantitas kelebihan
+function checkKesalahanResep() {
+    let cards = document.querySelectorAll('.obat-card');
+    let adaKesalahan = false;
+    let totalInput = 0;
+
+    cards.forEach(card => {
+        let namaObatCard = card.getAttribute('data-nama');
+        let jumlahInput = parseInt(card.querySelector('.count-number').innerText);
+        totalInput += jumlahInput;
+
+        if (jumlahInput > 0) {
+            // Cek 1: Apakah obat ini diminta di resep aktif?
+            // Kita cari kunci di resepAktif yang sebagian besar cocok dengan nama kartu
+            let cocokAturan = Object.keys(aturanResepAktif).find(kunci => namaObatCard.includes(kunci) || kunci.includes(namaObatCard));
+
+            if (!cocokAturan) {
+                adaKesalahan = true; // Obat salah
+            } else if (jumlahInput > aturanResepAktif[cocokAturan]) {
+                adaKesalahan = true; // Obat benar tapi jumlahnya kelebihan
+            }
+        }
+    });
+
+    // Validasi tombol Proses: Tombol hanya aktif jika kuantitas total cocok mutlak dengan aturan
+    let resepCocokMutlak = true;
+    for (let obatRequested in aturanResepAktif) {
+        let jumlahDiminta = aturanResepAktif[obatRequested];
+        let jumlahDiinput = 0;
+
+        // Cari counter dari obat yang cocok di DOM
+        let cocokCard = document.querySelector(`.obat-card[data-nama*="${obatRequested}"]`);
+        if (cocokCard) {
+            jumlahDiinput = parseInt(cocokCard.querySelector('.count-number').innerText);
+        }
+
+        if (jumlahDiminta !== jumlahDiinput) {
+            resepCocokMutlak = false; // Belum pas jumlahnya (kurang atau lebih)
+        }
+    }
+    
+    // Pastikan tidak ada obat lain yang di-input iseng
+    let inputSampingan = false;
+    document.querySelectorAll('.obat-card').forEach(card => {
+        let inputVal = parseInt(card.querySelector('.count-number').innerText);
+        if(inputVal > 0) {
+            let namaCard = card.getAttribute('data-nama');
+            let adaDiResep = Object.keys(aturanResepAktif).some(kunci => namaCard.includes(kunci) || kunci.includes(namaCard));
+            if(!adaDiResep) inputSampingan = true;
+        }
+    });
+    if(inputSampingan) resepCocokMutlak = false;
+
+    // Tampilkan / sembunyikan tulisan peringatan merah
+    let warningElement = document.getElementById("warningResep");
+    let btnProses = document.getElementById("btnProses");
+
+    if (adaKesalahan) {
+        warningElement.style.display = "block"; // Muncul hanya saat salah obat/kelebihan
+        btnProses.disabled = true; // Kunci tombol
+    } else {
+        warningElement.style.display = "none"; // Sembunyi jika benar atau masih kurang
+        btnProses.disabled = !resepCocokMutlak; // Aktif hanya jika jumlah cocok sempurna
+    }
+}
+
+function closeModal() {
+    document.getElementById("resepModal").style.display = "none";
+}
+
+function addCount(btn) {
+    let valSpan = btn.parentElement.querySelector('.count-number');
+    let currentVal = parseInt(valSpan.innerText);
+    valSpan.innerText = currentVal + 1;
+    checkKesalahanResep(); // Validasi setiap penambahan
+}
+
+function minCount(btn) {
+    let valSpan = btn.parentElement.querySelector('.count-number');
+    let currentVal = parseInt(valSpan.innerText);
+    if(currentVal > 0) {
+        valSpan.innerText = currentVal - 1;
+        checkKesalahanResep(); // Validasi setiap pengurangan
+    }
+}
+
+window.onclick = function(event) {
+    let modal = document.getElementById("resepModal");
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+</script>
 
 </body>
 </html>

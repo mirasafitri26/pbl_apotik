@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tambah Data Obat</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:'Poppins',sans-serif;
+    }
+
+    html,body{
+      width:100%;
+      min-height:100vh;
+      margin:0;
+      padding:0;
+    }
+
+    body{
+      background:#ece9e9;
+      overflow-x:hidden;
+    }
+
+    .container{
+      width:100%;
+      min-height:100vh;
+      background:#ece9e9;
+      display:flex;
+    }
+
+    /* SIDEBAR */
+    .sidebar{
+      width:220px;
+      background:#ffffff;
+      padding:20px;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+      position:fixed;
+      top:0;
+      left:0;
+      bottom:0;
+    }
+
+    .top-sidebar{
+      display:flex;
+      flex-direction:column;
+      gap:18px;
+    }
+
+    .logo{
+      display:flex;
+      justify-content:center;
+      margin-bottom:10px;
+    }
+
+    .logo img{
+      width:120px;
+    }
+
+    .menu-box{
+      background:white;
+      padding:18px;
+      border-radius:8px;
+      display:flex;
+      align-items:center;
+      gap:14px;
+      box-shadow:0 2px 6px rgba(0,0,0,0.15);
+      color:#006b74;
+      font-weight:600;
+      cursor:pointer;
+    }
+
+    .menu-icon{
+      width:20px;
+      height:20px;
+    }
+
+    .menu-title{
+      font-size:13px;
+    }
+
+    .logout{
+      background:red;
+      color:white;
+      border:none;
+      padding:12px;
+      border-radius:6px;
+      cursor:pointer;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      font-size:12px;
+      font-weight:500;
+    }
+
+    .logout img{
+      width:16px;
+    }
+
+    /* MAIN CONTENT */
+    .main{
+      flex:1;
+      margin-left:220px;
+      padding:16px 22px;
+      min-height:100vh;
+    }
+
+    .main-wrapper{
+      width:100%;
+      height:100%;
+      padding:20px 25px;
+      position:relative;
+    }
+
+    /* TOPBAR */
+    .topbar{
+      display:flex;
+      justify-content:flex-end;
+      align-items:center;
+      margin-bottom:20px;
+    }
+
+    .profile{
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+
+    .profile img{
+      width:45px;
+      height:45px;
+      border-radius:50%;
+      object-fit:cover;
+    }
+
+    .profile-text{
+      font-size:12px;
+      line-height:1.3;
+    }
+
+    .profile-text strong{
+      font-size:13px;
+      color:#222;
+    }
+
+    /* MODAL FORM */
+    .modal{
+      width:420px;
+      background:white;
+      border-radius:16px;
+      padding:35px 35px 25px;
+      position:absolute;
+      top:75%;
+      left:50%;
+      transform:translate(-50%, -50%);
+    }
+
+    .close{
+      position:absolute;
+      top:18px;
+      right:22px;
+      font-size:28px;
+      color:#888;
+      cursor:pointer;
+    }
+
+    .modal h2{
+      font-size:24px;
+      color:#222;
+      margin-bottom:25px;
+      font-weight:700;
+    }
+
+    .form-group{
+      margin-bottom:16px;
+    }
+
+    .form-group label{
+      display:block;
+      font-size:13px;
+      font-weight:600;
+      margin-bottom:8px;
+      color:#222;
+    }
+
+    .form-group input{
+      width:100%;
+      padding:14px;
+      border:1.5px solid #74d8d1;
+      border-radius:6px;
+      outline:none;
+      font-size:13px;
+      color:#444;
+      background:white;
+    }
+
+    .form-group input::placeholder{
+      color:#999;
+    }
+
+    /* BUTTONS */
+    .button-group{
+      display:flex;
+      justify-content:space-between;
+      margin-top:22px;
+      gap:20px;
+    }
+
+    .btn{
+      flex:1;
+      border:none;
+      padding:13px;
+      border-radius:6px;
+      font-size:13px;
+      font-weight:600;
+      cursor:pointer;
+    }
+
+    .btn-cancel{
+      background:red;
+      color:white;
+    }
+
+    .btn-save{
+      background:#006b74;
+      color:white;
+    }
+
+    /* CUSTOM POPUP */
+    .popup-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(4px);
+      display: flex;
+      justify-content:center;
+      align-items: center;
+      z-index: 9999;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .popup-overlay.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .success-card {
+      background: white;
+      padding: 40px;
+      border-radius: 20px;
+      width: 340px;
+      text-align: center;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      transform: scale(0.8);
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .popup-overlay.show .success-card {
+      transform: scale(1);
+    }
+
+    .success-icon-box {
+      width: 100px;
+      height: 100px;
+      background: #0B5E56;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0 auto 25px;
+    }
+
+    .success-msg-box {
+      background: #EAEAEA;
+      padding: 18px 12px;
+      border-radius: 12px;
+    }
+
+    .success-msg-box p {
+      font-size: 16px;
+      font-weight: 700;
+      color: #1A403A;
+      line-height: 1.4;
+      letter-spacing: 0.5px;
+    }
+
+    .checkmark {
+      width: 50px;
+      height: 50px;
+      stroke: white;
+      stroke-width: 6;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
+      stroke-dasharray: 100;
+      stroke-dashoffset: 100;
+      animation: drawCheck 0.6s 0.2s ease-in-out forwards;
+    }
+
+    @keyframes drawCheck {
+      to {
+        stroke-dashoffset: 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <div class="sidebar">
+      <div class="top-sidebar">
+        <div class="logo">
+          <img src="../img/Logo Rs.png" alt="Logo">
+        </div>
+        <div class="menu-box" onclick="window.location.href='dashboard_apotik.html'">
+          <img src="../img/Rumah.png" class="menu-icon" alt="Dashboard">
+          <div class="menu-title">Dashboard</div>
+        </div>
+        <div class="menu-box" onclick="window.location.href='Admin_Apotik.html'">
+          <img src="../img/obat.png" class="menu-icon" alt="Data Obat">
+          <div class="menu-title">Data Obat</div>
+        </div>
+      </div>
+      <button class="logout" onclick="window.location.replace('../Login/login.html')">
+        <img src="../img/panah lg.png" alt="Logout">
+        Log Out
+      </button>
+    </div>
+
+    <div class="main">
+      <div class="main-wrapper">
+        <div class="topbar">
+          <div class="profile">
+            <img src="../img/Foto Admin.png" alt="Admin">
+            <div class="profile-text">
+              <strong>Admin Apotik</strong><br>
+              Mutia Amelia
+            </div>
+          </div>
+        </div>
+
+        <div class="modal">
+          <div class="close" onclick="window.location.href='Admin_Apotik.html'">&times;</div>
+          <h2>Tambah Data Obat</h2>
+
+          <form id="formObat">
+            <div class="form-group">
+              <label>Nama Obat</label>
+              <input type="text" id="namaObat" placeholder="Masukkan Nama Obat" required>
+            </div>
+
+            <div class="form-group">
+              <label>Jenis Obat</label>
+              <input type="text" id="jenisObat" placeholder="Masukkan Jenis Obat" required>
+            </div>
+
+            <div class="form-group">
+              <label>Stok</label>
+              <input type="number" id="stok" placeholder="Masukkan Stok" required>
+            </div>
+
+            <div class="form-group">
+              <label>Harga Jual</label>
+              <input type="text" id="hargaJual" placeholder="Masukkan Harga Jual" required>
+            </div>
+
+            <div class="form-group">
+              <label>Harga Beli</label>
+              <input type="text" id="hargaBeli" placeholder="Masukkan Harga Beli" required>
+            </div>
+
+            <div class="form-group">
+              <label>Kadaluwarsa</label>
+              <input type="date" id="Kadaluwarsa" required> 
+            </div>
+
+            <div class="button-group">
+              <button type="button" class="btn btn-cancel" onclick="window.location.href='Admin_Apotik.html'">Batal</button>
+              <button type="submit" class="btn btn-save">Simpan</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="popup-overlay" id="popupSukses">
+    <div class="success-card">
+      <div class="success-icon-box">
+        <svg viewBox="0 0 52 52">
+          <path class="checkmark" d="M14 27 l7 7 l16 -16"/>
+        </svg>
+      </div>
+      <div class="success-msg-box">
+        <p>OBAT<br>BERHASIL DI<br>TAMBAHKAN</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const API_BASE = "https://farmasi4b06.vps-poliban.my.id/api";
+
+    // Fungsi konversi angka aman anti-crash string
+    function parseNumber(value) {
+      if (!value) return 0;
+      const clean = value.toString().replace(/[^0-9]/g, "");
+      return parseInt(clean, 10) || 0;
+    }
+
+    // Pasang Event Listener langsung ke tombol saat dokumen siap
+    document.addEventListener("DOMContentLoaded", function() {
+      const form = document.getElementById("formObat");
+      if (form) {
+        form.addEventListener("submit", function(e) {
+          e.preventDefault();
+          jalankanProsesSimpan();
+        });
+        console.log("🎯 Trigger form submit berhasil dipasang.");
+      } else {
+        console.error("❌ Elemen formObat tidak ditemukan di HTML!");
+      }
+    });
+
+    async function jalankanProsesSimpan() {
+      console.log("🚀 Fungsi jalankanProsesSimpan berhasil dipicu!");
+
+      // Ambil seluruh value dari form input
+      const nama = document.getElementById("namaObat").value.trim();
+      const jenisInput = document.getElementById("jenisObat").value.trim();
+      const stokRaw = document.getElementById("stok").value;
+      const hargaJualRaw = document.getElementById("hargaJual").value;
+      const hargaBeliRaw = document.getElementById("hargaBeli").value;
+      const expired = document.getElementById("Kadaluwarsa").value;
+
+      // Validasi Manual menyeluruh sebelum dikirim
+      if (!nama || !jenisInput || !stokRaw || !hargaJualRaw || !hargaBeliRaw || !expired) {
+        alert("Mohon lengkapi semua field formulir obat terlebih dahulu.");
+        return;
+      }
+
+      const stok = parseNumber(stokRaw);
+      const hargaJual = parseNumber(hargaJualRaw);
+      const hargaBeli = parseNumber(hargaBeliRaw);
+
+      try {
+        let idJenisObat = null;
+
+        // TAHAP 1: Ambil data jenis obat untuk di-scan kestabilannya
+        console.log("🔄 Melakukan scan jenis obat ke server...");
+        const resJenis = await fetch(`${API_BASE}/jenis-obat`, { 
+          headers: { "Accept": "application/json" } 
+        });
+        
+        if (!resJenis.ok) throw new Error(`Koneksi server jenis-obat terputus (${resJenis.status})`);
+        
+        const dataJenis = await resJenis.json();
+        const listJenis = dataJenis.data || dataJenis || [];
+
+        // Bandingkan text input user dengan database (Abaikan huruf kapital)
+        const ditemukan = listJenis.find(item => {
+          const namaJenisDb = item.JENIS_OBAT || item.jenis_obat || item.nama || "";
+          return namaJenisDb.toLowerCase() === jenisInput.toLowerCase();
+        });
+
+        if (ditemukan) {
+          idJenisObat = ditemukan.ID_JENIS_OBAT || ditemukan.id_jenis_obat || ditemukan.id;
+          console.log("✓ Jenis obat terdeteksi di server. Menggunakan ID lama:", idJenisObat);
+        } else {
+          // TAHAP 2: Buat Jenis Obat baru jika teks belum pernah terdaftar
+          console.log("➕ Membuat entitas jenis obat baru di server...");
+          const resBaru = await fetch(`${API_BASE}/jenis-obat`, {
+            method: "POST",
+            headers: {
+              "Accept": "application/json",
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ JENIS_OBAT: jenisInput })
+          });
+
+          if (!resBaru.ok) {
+            const err = await resBaru.json();
+            throw new Error(err.message || "Pembuatan jenis obat baru ditolak server.");
+          }
+          
+          const dataBaru = await resBaru.json();
+          idJenisObat = dataBaru?.data?.ID_JENIS_OBAT || dataBaru?.ID_JENIS_OBAT || dataBaru?.data?.id || dataBaru?.id;
+          console.log("✓ Entitas jenis obat sukses dibuat. Mengantongi ID:", idJenisObat);
+        }
+
+        if (!idJenisObat) {
+          throw new Error("Server menolak membagikan kode ID Jenis Obat.");
+        }
+
+        // TAHAP 3: Simpan Data Obat Utama ke Database server VPS Anda
+        console.log("💾 Sedang memproses penyimpanan data obat...");
+        const payloadObat = {
+          ID_JENIS_OBAT: parseInt(idJenisObat, 10),
+          NAMA_OBAT: nama,
+          STOK: stok,
+          EXPIRED_DATE: expired,
+          HARGA_JUAL: hargaJual,
+          HARGA_BELI: hargaBeli
+        };
+
+        const resObat = await fetch(`${API_BASE}/obat`, {
+          method: "POST",
+          headers: {
+            "Accept": "application/json",
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(payloadObat)
+        });
+
+        if (!resObat.ok) {
+          const errData = await resObat.json();
+          throw new Error(errData.message || `Gagal menyimpan ke tabel obat (HTTP ${resObat.status})`);
+        }
+
+        console.log("✅ Proses selesai! Seluruh data sukses masuk.");
+        
+        // Aktifkan popup centang kesuksesan visual Anda
+        const popup = document.getElementById("popupSukses");
+        if (popup) {
+          popup.classList.add("show");
+        }
+
+        // Delay 2 detik lalu paksa browser kembali ke Admin_Apotik.html agar tabel ter-update
+        setTimeout(() => {
+          window.location.replace("Admin_Apotik.html");
+        }, 2000);
+
+      } catch (error) {
+        console.error("❌ Fatal Error:", error);
+        alert("System Error: " + error.message);
+      }
+    }
+  </script>
+
+</body>
+</html>

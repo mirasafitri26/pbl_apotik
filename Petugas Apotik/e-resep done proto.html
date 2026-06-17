@@ -3,13 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>E-Resep</title>
-
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
-
 :root{
     --primary:#005F6B;
     --secondary:#2FD3BE;
@@ -35,8 +32,7 @@ body{
     min-height:100vh;
 }
 
-/* SIDEBAR */
-
+/* SIDEBAR - SAMA PERSIS DENGAN CODING 1 */
 .sidebar{
     width:220px;
     background:#F8F8F8;
@@ -50,9 +46,9 @@ body{
 }
 
 .logo{
+    margin-bottom:20px;
     display:flex;
     justify-content:center;
-    margin-bottom:20px;
 }
 
 .logo img{
@@ -66,21 +62,24 @@ body{
 }
 
 .menu-box{
-    background:white;
-    padding:15px 18px;
+    background:#fff;
+    padding:16px 18px;
     border-radius:10px;
     display:flex;
     align-items:center;
-    gap:12px;
-
-    color:var(--primary);
+    gap:14px;
+    color:#005F6B;
     font-weight:600;
-
-    box-shadow:0 3px 8px rgba(0,0,0,.10);
+    box-shadow:0 3px 8px rgba(0,0,0,0.10);
     cursor:pointer;
+    transition:.2s;
 }
 
-.menu-box img{
+.menu-box:hover{
+    transform:translateY(-2px);
+}
+
+.menu-icon{
     width:20px;
     height:20px;
 }
@@ -91,33 +90,31 @@ body{
 
 .logout{
     margin-top:auto;
-
+    border:none;
     background:red;
     color:white;
-
-    border:none;
-    border-radius:7px;
-
-    padding:11px;
+    padding:13px;
+    border-radius:8px;
+    font-weight:600;
     cursor:pointer;
-
     display:flex;
     justify-content:center;
     align-items:center;
-    gap:8px;
+    gap:10px;
+    box-shadow:0 3px 8px rgba(255,0,0,.25);
+    transition: .2s;
+}
 
-    font-size:12px;
-    font-weight:600;
-
-    box-shadow:0 4px 8px rgba(255,0,0,.2);
+.logout:hover {
+    background: #cc0000;
+    transform: translateY(-2px);
 }
 
 .logout img{
-    width:15px;
+    width:16px;
 }
 
 /* MAIN */
-
 .main{
     flex:1;
     margin-left:220px;
@@ -125,22 +122,18 @@ body{
 }
 
 /* WRAPPER */
-
 .wrapper{
     background:#F4F4F4;
     border:1px solid #A9CACA;
     border-radius:2px;
-
     padding:8px 12px;
 }
 
 /* HEADER */
-
 .header{
     display:flex;
     justify-content:space-between;
     align-items:center;
-
     margin-bottom:16px;
 }
 
@@ -178,32 +171,24 @@ body{
 }
 
 /* RESEP CONTAINER */
-
 .resep-container{
     background:#FAFAFA;
     border-radius:8px;
     padding:8px;
-
     border:1px solid #D7D7D7;
-
     box-shadow:0 2px 6px rgba(0,0,0,.05);
 }
 
 /* ITEM */
-
 .resep-item{
     padding:5px 8px;
     display:flex;
     justify-content:space-between;
     align-items:center;
-
     background:#ECECEC;
-
     border-radius:5px;
     padding:6px 10px;
-
     margin-bottom:8px;
-
     box-shadow:0 2px 5px rgba(0,0,0,.06);
 }
 
@@ -214,26 +199,20 @@ body{
 }
 
 /* NOMOR */
-
 .nomor{
     width:42px;
     height:42px;
-
     background:var(--primary);
     color:white;
-
     border-radius:4px;
-
     display:flex;
     justify-content:center;
     align-items:center;
-
     font-size:17px;
     font-weight:700;
 }
 
 /* INFO */
-
 .info h3{
     color:var(--primary);
     font-size:14px;
@@ -247,198 +226,126 @@ body{
 }
 
 /* BUTTON */
-
 .pilih-btn{
     width:85px;
     height:40px;
-
     border:none;
     border-radius:4px;
-
     background:var(--primary);
     color:white;
-
     font-size:14px;
     font-weight:700;
-
     cursor:pointer;
     transition:.2s;
 }
-
 </style>
 </head>
 
 <body>
 
-<!-- SIDEBAR -->
-
 <div class="sidebar">
-
     <div>
-
         <div class="logo">
-            <img src="c:\Users\LENOVO\Downloads\desain uiux\Logo Rs.png">
+            <img src="../img/Logo Rs.png">
         </div>
-
         <div class="top-sidebar">
-
-            <div class="menu-box">
-                <img src="c:\Users\LENOVO\Downloads\desain uiux\Rumah.png">
+            <div class="menu-box" onclick="window.location.href='petugas_apotik.html'">
+                <img src="../img/Rumah.png" class="menu-icon">
                 <div class="menu-title">Dashboard</div>
             </div>
-
-            <div class="menu-box">
-                <img src="c:\Users\LENOVO\Downloads\desain uiux\e-resep.png">
+            <div class="menu-box" onclick="window.location.href='e-resep.html'">
+                <img src="../img/e-resep.png" class="menu-icon">
                 <div class="menu-title">E-Resep</div>
             </div>
-
         </div>
-
     </div>
-
-    <button class="logout">
-        <img src="c:\Users\LENOVO\Downloads\desain uiux\panah lg.png">
-        Log Out
+    <button class="logout" onclick="window.location.href='../Login/login.html'">
+        <img src="../img/panah lg.png">Log Out
     </button>
-
 </div>
 
-<!-- MAIN -->
-
 <div class="main">
-
     <div class="wrapper">
 
-        <!-- HEADER -->
-
         <div class="header">
-
             <div>
                 <div class="header-title">E-Resep</div>
                 <div class="header-sub">List Resep Obat Yang Tersedia</div>
             </div>
-
             <div class="profile">
-
-                <img src="c:\Users\LENOVO\Downloads\desain uiux\Foto Admin.png">
-
+                <img src="../img/Foto Admin.png">
                 <div class="profile-text">
                     <strong>Petugas Apotik</strong><br>
                     Mutia Amelia
                 </div>
-
             </div>
-
         </div>
-
-        <!-- LIST RESEP -->
 
         <div class="resep-container">
 
-            <!-- ITEM -->
-
             <div class="resep-item">
-
                 <div class="left">
-
                     <div class="nomor">002</div>
-
                     <div class="info">
                         <h3>Resep</h3>
                         <p>1x Sangobion</p>
                         <p>1x Enervon-C</p>
                     </div>
-
                 </div>
-
                 <button class="pilih-btn">Pilih</button>
-
             </div>
 
-            <!-- ITEM -->
-
             <div class="resep-item">
-
                 <div class="left">
-
                     <div class="nomor">003</div>
-
                     <div class="info">
                         <h3>Resep</h3>
                         <p>1x Sangobion</p>
                         <p>1x Cefadroxil 500mg</p>
                     </div>
-
                 </div>
-
                 <button class="pilih-btn">Pilih</button>
-
             </div>
 
-            <!-- ITEM -->
-
             <div class="resep-item">
-
                 <div class="left">
-
                     <div class="nomor">004</div>
-
                     <div class="info">
                         <h3>Resep</h3>
                         <p>1x Sangobion &nbsp;&nbsp; 1x Cefadroxil 500mg</p>
                         <p>1x Enervon-C &nbsp;&nbsp; 1x Diapet</p>
                     </div>
-
                 </div>
-
                 <button class="pilih-btn">Pilih</button>
-
             </div>
 
-            <!-- ITEM -->
-
             <div class="resep-item">
-
                 <div class="left">
-
                     <div class="nomor">005</div>
-
                     <div class="info">
                         <h3>Resep</h3>
                         <p>1x Sangobion &nbsp;&nbsp; 1x Rohto Cool 7ml</p>
                         <p>1x Enervon-C</p>
                     </div>
-
                 </div>
-
                 <button class="pilih-btn">Pilih</button>
-
             </div>
 
-            <!-- ITEM -->
-
             <div class="resep-item">
-
                 <div class="left">
-
                     <div class="nomor">006</div>
-
                     <div class="info">
                         <h3>Resep</h3>
                         <p>1x Diapet</p>
                         <p>1x Paracetamol</p>
                     </div>
-
                 </div>
-
                 <button class="pilih-btn">Pilih</button>
-
             </div>
 
         </div>
 
     </div>
-
 </div>
 
 </body>

@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Data Obat</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+        --primary:#44C7B6;
+        --sidebar:#F8F8F8;
+        --bg:#ECECEC;
+    }
+
+    *{
+        margin:0;
+        padding:0;
+        box-sizing:border-box;
+        font-family:'Poppins',sans-serif;
+    }
+
+    body{
+        background:var(--bg);
+        display:flex;
+        min-height:100vh;
+    }
+
+    /* SIDEBAR */
+    .sidebar{
+        width:220px;
+        background:#F8F8F8;
+        padding:18px;
+        display:flex;
+        flex-direction:column;
+        position:fixed;
+        top:0;
+        left:0;
+        bottom:0;
+    }
+
+    .sidebar-content{
+        display:flex;
+        flex-direction:column;
+    }
+
+    .logo{
+        display:flex;
+        justify-content:center;
+        margin-bottom:25px;
+    }
+
+    .logo img{
+        width:120px;
+    }
+
+    .top-sidebar{
+        display:flex;
+        flex-direction:column;
+        gap:20px;
+    }
+
+    .menu-box{
+        background:white;
+        padding:16px 18px;
+        border-radius:10px;
+        display:flex;
+        align-items:center;
+        gap:12px;
+        color:#005F6B;
+        font-weight:600;
+        box-shadow:0 3px 8px rgba(0,0,0,0.10);
+        cursor:pointer;
+        transition:.3s;
+    }
+
+    .menu-box:hover{
+        transform:translateY(-2px);
+    }
+
+    .menu-icon{
+        width:20px;
+    }
+
+    .menu-title{
+        font-size:13px;
+    }
+
+    .logout{
+        margin-top:auto;
+        background:#FF1111;
+        color:white;
+        border:none;
+        padding:12px;
+        border-radius:8px;
+        font-weight:600;
+        cursor:pointer;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        gap:8px;
+        box-shadow:0 4px 8px rgba(255,0,0,.2);
+    }
+
+    .logout img{
+        width:16px;
+    }
+
+    /* MAIN */
+    .main{
+        flex:1;
+        margin-left:220px;
+        padding:20px 28px;
+    }
+
+    .wrapper{
+        background:#F3F3F3;
+        border-radius:28px;
+        padding:20px 26px;
+        min-height:95vh;
+    }
+
+    /* HEADER */
+    .header{
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        margin-bottom:15px;
+    }
+
+    .title h1{
+        font-size:22px;
+        color:#222;
+    }
+
+    .title p{
+        font-size:12px;
+        color:#9CA3AF;
+    }
+
+    .profile{
+        display:flex;
+        align-items:center;
+        gap:12px;
+    }
+
+    .profile img{
+        width:50px;
+        height:50px;
+        border-radius:50%;
+        object-fit:cover;
+    }
+
+    .profile-text{
+        font-size:12px;
+    }
+
+    .profile-text strong{
+        font-size:14px;
+    }
+
+    /* SEARCH */
+    .search-box{
+        background:white;
+        padding:14px;
+        border-radius:14px;
+        box-shadow:0 4px 10px rgba(0,0,0,.10);
+        margin-top:15px;
+    }
+
+    .search-box label{
+        font-size:13px;
+        font-weight:600;
+        display:block;
+        margin-bottom:8px;
+    }
+
+    .search-box input{
+        width:100%;
+        padding:14px;
+        border:1.5px solid #58CFC1;
+        border-radius:8px;
+        outline:none;
+        font-size:13px;
+    }
+
+    /* BUTTON TAMBAH */
+    .top-action{
+        display:flex;
+        justify-content:flex-end;
+        margin:25px 0 18px;
+    }
+
+    .tambah-btn{
+        background:transparent;
+        border:none;
+        padding:0;
+        cursor:pointer;
+    }
+
+    .tambah-btn img{
+        width: 180px;
+        height:auto;
+    }
+
+    .tambah-btn:hover{
+        background:#43C7B6;
+        color:white;
+    }
+
+    /* TABLE */
+    .table-card{
+        background:white;
+        border-radius:18px;
+        padding:0;
+        overflow:hidden;
+        box-shadow:0 4px 10px rgba(0,0,0,.08);
+    }
+
+    table{
+        width:100%;
+        border-collapse:collapse;
+    }
+
+    thead{
+        background:#43C7B6;
+        color:white;
+    }
+
+    thead th{
+        padding:16px;
+        font-size:13px;
+        font-weight:500;
+        text-align:center;
+    }
+
+    tbody td{
+        padding:14px 10px;
+        font-size:12px;
+        text-align:center;
+        border:1px solid #E5E7EB;
+        color:#4B5563;
+        transition: background-color 0.2s ease;
+    }
+
+    .edit-btn{
+        color:#2196F3;
+        font-size:18px;
+        cursor:pointer;
+        text-decoration:none;
+    }
+
+    tbody tr:hover{
+        background:#F9FAFB;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="sidebar">
+    <div class="sidebar-content">
+        <div class="logo">
+            <img src="../img/Logo Rs.png">
+        </div>
+        <div class="top-sidebar">
+            <div class="menu-box" onclick="window.location.href='dashboard_apotik.html'">
+                <img src="../img/Rumah.png" class="menu-icon">
+                <div class="menu-title">Dashboard</div>
+            </div>
+            <div class="menu-box" onclick="window.location.href='Admin_Apotik.html'">
+                <img src="../img/obat.png" class="menu-icon">
+                <div class="menu-title">Data Obat</div>
+            </div>
+        </div>
+    </div>
+    <button class="logout" onclick="logout()">
+        <img src="../img/panah lg.png">
+        Log Out
+    </button>
+  </div>
+
+  <div class="main">
+    <div class="wrapper">
+        
+        <div class="header">
+            <div class="title">
+                <h1>Data Obat</h1>
+                <p>List data Obat</p>
+            </div>
+            <div class="profile">
+                <img src="../img/Foto Admin.png">
+                <div class="profile-text">
+                    <strong>Admin Apotik</strong><br>
+                    Mutia Amelia
+                </div>
+            </div>
+        </div>
+
+        <div class="search-box">
+            <label>Cari Nama Obat</label>
+            <input type="text" id="inputCari" placeholder="Input Nama Obat Yang Di Cari">
+        </div>
+
+        <div class="top-action">
+            <button class="tambah-btn" onclick="window.location.href='Admin_Apotik_Tambah.html'">
+                <img src="../img/tambah.png" class="icon-tambah">
+            </button>
+        </div>
+
+        <div class="table-card">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID Obat</th>
+                        <th>Nama Obat</th>
+                        <th>Jenis</th>
+                        <th>Stok</th>
+                        <th>Harga</th>
+                        <th>Kadaluwarsa</th>
+                        <th>Edit</th>
+                    </tr>
+                </thead>
+                <tbody id="tbodyObat">
+                    </tbody>
+            </table>
+        </div>
+
+    </div>
+  </div>
+
+  <script>
+    const API_BASE = "https://farmasi4b06.vps-poliban.my.id/api";
+
+    function logout() {
+        window.location.href = "../Login/login.html";
+    }
+
+    let dataObat = [];
+    let tbody;
+    let searchInput;
+
+    function getField(obj, key, fallback = "") {
+      if (!obj) return fallback;
+      if (Object.prototype.hasOwnProperty.call(obj, key) && obj[key] !== null && obj[key] !== undefined) {
+        return obj[key];
+      }
+      const lowerKey = key.toLowerCase();
+      if (Object.prototype.hasOwnProperty.call(obj, lowerKey) && obj[lowerKey] !== null && obj[lowerKey] !== undefined) {
+        return obj[lowerKey];
+      }
+      return fallback;
+    }
+
+    function renderTable(keyword = "") {
+        if (!tbody) return;
+        tbody.innerHTML = "";
+        const lowerKeyword = keyword.toLowerCase();
+        const cocok = [];
+        const lainnya = [];
+
+        dataObat.forEach((obat, index) => {
+            const obatData = { ...obat, originalIndex: index };
+            const namaObat = String(getField(obatData, "NAMA_OBAT", getField(obatData, "nama", ""))).toLowerCase();
+
+            if (lowerKeyword && namaObat.includes(lowerKeyword)) {
+                cocok.push(obatData);
+            } else {
+                lainnya.push(obatData);
+            }
+        });
+
+        const dataTerurut = [...cocok, ...lainnya];
+
+        dataTerurut.forEach((obat, i) => {
+            const styleHighlight = lowerKeyword && i < cocok.length ? 'style="background-color: #e8f8f5;"' : '';
+            const idValue = getField(obat, "ID_OBAT", obat.originalIndex + 1);
+            const idDisplay = String(idValue).padStart(4, "0");
+            const nama = getField(obat, "NAMA_OBAT", getField(obat, "nama", ""));
+            const jenis = getField(obat, "JENIS_OBAT", getField(obat, "jenis", ""));
+            const stok = getField(obat, "STOK", getField(obat, "stok", ""));
+            const harga = getField(obat, "HARGA_JUAL", getField(obat, "hargaJual", getField(obat, "harga", "")));
+            const expired = getField(obat, "EXPIRED_DATE", getField(obat, "expired", ""));
+
+            tbody.innerHTML += `
+            <tr ${styleHighlight}>
+                <td>${idDisplay}</td>
+                <td>${nama}</td>
+                <td>${jenis}</td>
+                <td>${stok}</td>
+                <td>${harga}</td>
+                <td>${expired}</td>
+                <td>
+                    <a href="Admin_Apotik_Edit.html?id=${encodeURIComponent(idValue)}" class="edit-btn">
+                        <img src="../img/pensil.png" width="20">
+                    </a>
+                </td>
+            </tr>
+            `;
+        });
+    }
+
+    function loadObatData() {
+        fetch(`${API_BASE}/obat`, {
+            headers: {
+                "Accept": "application/json"
+            }
+        })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}`);
+            }
+            return response.json();
+        })
+        .then((data) => {
+            dataObat = data.data || data || [];
+            renderTable();
+        })
+        .catch((error) => {
+            console.error("Gagal memuat data obat dari API:", error);
+            if (tbody) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="7" style="padding:16px; text-align:center; color:#d00;">Gagal memuat data obat. Periksa koneksi atau server API.</td>
+                    </tr>
+                `;
+            }
+        });
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+      tbody = document.getElementById("tbodyObat");
+      searchInput = document.getElementById("inputCari");
+
+      if (searchInput) {
+          searchInput.addEventListener("input", function() {
+              renderTable(this.value);
+          });
+      }
+
+      loadObatData();
+    });
+  </script>
+
+</body>
+</html>

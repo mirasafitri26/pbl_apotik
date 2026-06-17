@@ -79,6 +79,11 @@
       background:#014852;
     }
 
+    .role button.active{
+      background:#8B5E3C;
+      color:white;
+    }
+
     .input-group{
       margin-bottom:18px;
     }
@@ -171,34 +176,6 @@
       right:0;
     }
 
-    .social{
-      display:flex;
-      gap:10px;
-      margin-bottom:25px;
-    }
-
-    .social button{
-      flex:1;
-      padding:10px;
-      border:1px solid #ddd;
-      background:white;
-      border-radius:8px;
-      font-size:12px;
-      cursor:pointer;
-    }
-
-    .signup{
-      text-align:center;
-      font-size:13px;
-      color:#555;
-    }
-
-    .signup a{
-      text-decoration:none;
-      color:#2759ff;
-      font-weight:500;
-    }
-
     /* RIGHT */
     .right{
       width:62%;
@@ -231,23 +208,18 @@
         border-radius:0;
       }
     }
-
   </style>
 </head>
-
 <body>
 
   <div class="container">
-
-    <!-- LEFT -->
     <div class="left">
       <div class="login-box">
-
         <h1>Masuk</h1>
 
         <div class="role">
-          <button>Pasien</button>
-          <button>Petugas</button>
+          <button type="button" id="btn-Pasien" onclick="pilihRole('Pasien')">Pasien</button>
+          <button type="button" id="btn-Petugas" onclick="pilihRole('Petugas')">Petugas</button>
         </div>
 
         <div class="input-group">
@@ -256,11 +228,10 @@
         </div>
 
         <div class="input-group">
-          <label>kata Sandi</label>
-
+          <label>Kata Sandi</label>
           <div class="password-box">
-            <input type="password" placeholder="Masukkan kata sandi">
-            <span>👁</span>
+            <input type="password" id="password" placeholder="Masukkan kata sandi">
+            <span onclick="togglePassword()"></span>
           </div>
         </div>
 
@@ -269,22 +240,76 @@
             <input type="checkbox">
             Ingatlah selama 30 hari
           </label>
-
           <a href="#">Lupa kata Sandi</a>
         </div>
 
-        <button class="login-btn">Masuk</button>
-
-      
+        <button class="login-btn" onclick="login()">Masuk</button>
       </div>
     </div>
 
-    <!-- RIGHT -->
     <div class="right">
-      <img src="c:\Users\LENOVO\Downloads\desain uiux\foto rs.png">
+      <img src="../img/foto rs.png">
     </div>
-
   </div>
 
+<script>
+  function togglePassword() {
+    const passwordInput = document.getElementById("password");
+    passwordInput.type = passwordInput.type === "password" ? "text" : "password";
+  }
+
+  let roleDipilih = "";
+
+  function pilihRole(role){
+    roleDipilih = role;
+    
+    // Reset status active tombol
+    document.getElementById("btn-Pasien").classList.remove("active");
+    document.getElementById("btn-Petugas").classList.remove("active");
+    
+    // Tambah class active pada tombol yang dipilih
+    document.getElementById("btn-" + role).classList.add("active");
+  }
+
+  function login(){
+    const email = document.querySelector('input[type="email"]').value;
+    const password = document.getElementById("password").value;
+
+    if(email === "" || password === ""){
+      alert("Email dan password harus diisi!");
+      return;
+    }
+
+    if(roleDipilih === ""){
+      alert("Pilih role terlebih dahulu!");
+      return;
+    }
+
+    // Validasi Multi-Akun untuk Role Petugas
+    if(roleDipilih === "Petugas"){
+      
+      if(email === "adminapotik@gmail.com" && password === "uusganteng123"){
+        alert("Login berhasil sebagai Admin Petugas!");
+        // PERBAIKAN PATH: Keluar folder login, masuk ke folder Admin Apotik
+        window.location.href = "../Admin Apotik/dashboard_apotik.html";
+        return;
+        
+      } else if(email === "petugasapotik@gmail.com" && password === "uusganteng123"){
+        alert("Login berhasil sebagai Petugas Apotik!");
+        // PERBAIKAN PATH: Keluar folder login, masuk ke folder Petugas Apotik
+        window.location.href = "../Petugas Apotik/petugas_apotik.html";
+        return;
+        
+      } else {
+        alert("Email atau Password Petugas salah!");
+        return;
+      }
+      
+    }
+
+    // Default untuk login Pasien
+    alert("Login berhasil sebagai " + roleDipilih);
+  }
+</script>
 </body>
 </html>

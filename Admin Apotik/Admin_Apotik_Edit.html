@@ -1,0 +1,573 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Data Obat</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+        --primary:#44C7B6;
+        --sidebar:#F8F8F8;
+        --bg:#ECECEC;
+    }
+
+    *{
+        margin:0;
+        padding:0;
+        box-sizing:border-box;
+        font-family:'Poppins',sans-serif;
+    }
+
+    body{
+        background:var(--bg);
+        display:flex;
+        min-height:100vh;
+    }
+
+    .sidebar{
+        width:220px;
+        background:#F8F8F8;
+        padding:18px;
+        display:flex;
+        flex-direction:column;
+        position:fixed;
+        top:0;
+        left:0;
+        bottom:0;
+    }
+
+    .sidebar-content{
+        display:flex;
+        flex-direction:column;
+    }
+
+    .logo{
+        display:flex;
+        justify-content:center;
+        margin-bottom:25px;
+    }
+
+    .logo img{
+        width:120px;
+    }
+
+    .top-sidebar{
+        display:flex;
+        flex-direction:column;
+        gap:20px;
+    }
+
+    .menu-box{
+        background:white;
+        padding:16px 18px;
+        border-radius:10px;
+        display:flex;
+        align-items:center;
+        gap:12px;
+        color:#005F6B;
+        font-weight:600;
+        box-shadow:0 3px 8px rgba(0,0,0,0.10);
+        cursor:pointer;
+        transition:.3s;
+    }
+
+    .menu-box:hover{
+        transform:translateY(-2px);
+    }
+
+    .menu-icon{
+        width:20px;
+    }
+
+    .menu-title{
+        font-size:13px;
+    }
+
+    .logout{
+        margin-top:auto;
+        background:#FF1111;
+        color:white;
+        border:none;
+        padding:12px;
+        border-radius:8px;
+        font-weight:600;
+        cursor:pointer;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        gap:8px;
+        box-shadow:0 4px 8px rgba(255,0,0,.2);
+    }
+
+    .logout img{
+        width:16px;
+    }
+
+    .main{
+        flex:1;
+        margin-left:220px;
+        padding:20px 28px;
+    }
+
+    .wrapper{
+        background:#F3F3F3;
+        border-radius:28px;
+        padding:20px 26px;
+        min-height:95vh;
+    }
+
+    .header{
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        margin-bottom:15px;
+    }
+
+    .title h1{
+        font-size:22px;
+        color:#222;
+    }
+
+    .title p{
+        font-size:12px;
+        color:#9CA3AF;
+    }
+
+    .profile{
+        display:flex;
+        align-items:center;
+        gap:12px;
+    }
+
+    .profile img{
+        width:50px;
+        height:50px;
+        border-radius:50%;
+        object-fit:cover;
+    }
+
+    .profile-text{
+        font-size:12px;
+    }
+
+    .profile-text strong{
+        font-size:14px;
+    }
+
+    .form-card{
+        background:white;
+        border-radius:20px;
+        padding:24px;
+        box-shadow:0 4px 12px rgba(0,0,0,.08);
+        margin-top:20px;
+    }
+
+    .form-group{
+        display:flex;
+        flex-direction:column;
+        gap:8px;
+        margin-bottom:16px;
+    }
+
+    .form-group label{
+        font-size:13px;
+        font-weight:600;
+        color:#1f2937;
+    }
+
+    .form-group input{
+        padding:14px;
+        border:1px solid #d1d5db;
+        border-radius:10px;
+        outline:none;
+        font-size:13px;
+    }
+
+    .button-group{
+        display:flex;
+        gap:16px;
+        margin-top:20px;
+    }
+
+    .btn{
+        flex:1;
+        border:none;
+        padding:14px;
+        border-radius:10px;
+        font-weight:700;
+        cursor:pointer;
+    }
+
+    .btn-cancel{
+        background:#EF4444;
+        color:white;
+    }
+
+    .btn-save{
+        background:#14B8A6;
+        color:white;
+    }
+
+    .popup-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(4px);
+      display: flex;
+      justify-content:center;
+      align-items: center;
+      z-index: 9999;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .popup-overlay.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .success-card {
+      background: white;
+      padding: 40px;
+      border-radius: 20px;
+      width: 340px;
+      text-align: center;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      transform: scale(0.8);
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .popup-overlay.show .success-card {
+      transform: scale(1);
+    }
+
+    .success-icon-box {
+      width: 100px;
+      height: 100px;
+      background: #0B5E56;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0 auto 25px;
+    }
+
+    .success-msg-box {
+      background: #EAEAEA;
+      padding: 18px 12px;
+      border-radius: 12px;
+    }
+
+    .success-msg-box p {
+      font-size: 16px;
+      font-weight: 700;
+      color: #1A403A;
+      line-height: 1.4;
+      letter-spacing: 0.5px;
+    }
+
+    .checkmark {
+      width: 50px;
+      height: 50px;
+      stroke: white;
+      stroke-width: 6;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
+      stroke-dasharray: 100;
+      stroke-dashoffset: 100;
+      animation: drawCheck 0.6s 0.2s ease-in-out forwards;
+    }
+
+    @keyframes drawCheck {
+      to {
+        stroke-dashoffset: 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="sidebar">
+    <div class="sidebar-content">
+        <div class="logo">
+            <img src="../img/Logo Rs.png">
+        </div>
+        <div class="top-sidebar">
+            <div class="menu-box" onclick="window.location.href='dashboard_apotik.html'">
+                <img src="../img/Rumah.png" class="menu-icon">
+                <div class="menu-title">Dashboard</div>
+            </div>
+            <div class="menu-box" onclick="window.location.href='Admin_Apotik.html'">
+                <img src="../img/obat.png" class="menu-icon">
+                <div class="menu-title">Data Obat</div>
+            </div>
+        </div>
+    </div>
+    <button class="logout" onclick="logout()">
+        <img src="../img/panah lg.png">
+        Log Out
+    </button>
+  </div>
+
+  <div class="main">
+    <div class="wrapper">
+        <div class="header">
+            <div class="title">
+                <h1>Edit Data Obat</h1>
+                <p>Ubah detail obat dan simpan ke server</p>
+            </div>
+            <div class="profile">
+                <img src="../img/Foto Admin.png">
+                <div class="profile-text">
+                    <strong>Admin Apotik</strong><br>
+                    Mutia Amelia
+                </div>
+            </div>
+        </div>
+
+        <div class="form-card">
+          <form id="formEditObat">
+            <div class="form-group">
+              <label>ID Obat</label>
+              <input type="text" id="idObat" readonly>
+            </div>
+
+            <div class="form-group">
+              <label>Nama Obat</label>
+              <input type="text" id="namaObat" placeholder="Masukkan Nama Obat" required>
+            </div>
+
+            <div class="form-group">
+              <label>Jenis Obat</label>
+              <input type="text" id="jenisObat" placeholder="Masukkan Jenis Obat" required>
+            </div>
+
+            <div class="form-group">
+              <label>Stok</label>
+              <input type="number" id="stok" placeholder="Masukkan Stok" required>
+            </div>
+
+            <div class="form-group">
+              <label>Harga Jual</label>
+              <input type="text" id="hargaJual" placeholder="Masukkan Harga Jual" required>
+            </div>
+
+            <div class="form-group">
+              <label>Harga Beli</label>
+              <input type="text" id="hargaBeli" placeholder="Masukkan Harga Beli" required>
+            </div>
+
+            <div class="form-group">
+              <label>Kadaluwarsa</label>
+              <input type="date" id="Kadaluwarsa" required>
+            </div>
+
+            <input type="hidden" id="idJenisObat" value="">
+
+            <div class="button-group">
+              <button type="button" class="btn btn-cancel" onclick="window.location.href='Admin_Apotik.html'">Batal</button>
+              <button type="submit" class="btn btn-save">Simpan</button>
+            </div>
+          </form>
+        </div>
+    </div>
+  </div>
+
+  <div class="popup-overlay" id="popupSukses">
+    <div class="success-card">
+      <div class="success-icon-box">
+        <svg viewBox="0 0 52 52">
+          <path class="checkmark" d="M14 27 l7 7 l16 -16"/>
+        </svg>
+      </div>
+      <div class="success-msg-box">
+        <p>OBAT<br>BERHASIL DI<br>UPDATE</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const API_BASE = "https://farmasi4b06.vps-poliban.my.id/api";
+
+    function logout(){
+      window.location.href = "../Login/login.html";
+    }
+
+    function parseNumber(value) {
+      if (!value) return 0;
+      const clean = value.toString().replace(/[^0-9]/g, "");
+      return parseInt(clean, 10) || 0;
+    }
+
+    function getQueryParam(name) {
+      const params = new URLSearchParams(window.location.search);
+      return params.get(name);
+    }
+
+    function showError(message) {
+      console.error(message);
+      alert(message);
+    }
+
+    async function loadObat() {
+      const id = getQueryParam("id");
+      if (!id) {
+        showError("ID Obat tidak ditemukan pada URL.");
+        window.location.href = "Admin_Apotik.html";
+        return;
+      }
+
+      try {
+        const response = await fetch(`${API_BASE}/obat/${encodeURIComponent(id)}`, {
+          headers: { "Accept": "application/json" }
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json().catch(() => ({}));
+          throw new Error(errorData.message || `Gagal memuat detail obat (HTTP ${response.status})`);
+        }
+
+        const result = await response.json();
+        const obat = result.data || result;
+        if (!obat) {
+          throw new Error("Data obat tidak tersedia dari API.");
+        }
+
+        document.getElementById("idObat").value = obat.ID_OBAT || obat.id || id;
+        document.getElementById("namaObat").value = obat.NAMA_OBAT || obat.nama || "";
+        document.getElementById("jenisObat").value = obat.JENIS_OBAT || obat.jenis || "";
+        document.getElementById("stok").value = obat.STOK || obat.stok || "";
+        document.getElementById("hargaJual").value = obat.HARGA_JUAL || obat.hargaJual || obat.harga || "";
+        document.getElementById("hargaBeli").value = obat.HARGA_BELI || obat.hargaBeli || "";
+        document.getElementById("Kadaluwarsa").value = obat.EXPIRED_DATE || obat.expired || "";
+        document.getElementById("idJenisObat").value = obat.ID_JENIS_OBAT || obat.id_jenis_obat || "";
+
+      } catch (error) {
+        showError("Gagal memuat data obat: " + error.message);
+      }
+    }
+
+    async function findOrCreateJenis(jenisText) {
+      if (!jenisText) {
+        throw new Error("Jenis obat harus diisi.");
+      }
+
+      const resJenis = await fetch(`${API_BASE}/jenis-obat`, {
+        headers: { "Accept": "application/json" }
+      });
+
+      if (!resJenis.ok) {
+        throw new Error(`Gagal memuat jenis obat (HTTP ${resJenis.status})`);
+      }
+
+      const dataJenis = await resJenis.json();
+      const listJenis = dataJenis.data || dataJenis || [];
+      const match = listJenis.find(item => {
+        const namaJenis = item.JENIS_OBAT || item.jenis_obat || item.nama || "";
+        return namaJenis.toLowerCase() === jenisText.toLowerCase();
+      });
+
+      if (match) {
+        return match.ID_JENIS_OBAT || match.id_jenis_obat || match.id;
+      }
+
+      const resBaru = await fetch(`${API_BASE}/jenis-obat`, {
+        method: "POST",
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ JENIS_OBAT: jenisText })
+      });
+
+      if (!resBaru.ok) {
+        const errData = await resBaru.json().catch(() => ({}));
+        throw new Error(errData.message || `Gagal membuat jenis obat baru (HTTP ${resBaru.status})`);
+      }
+
+      const dataBaru = await resBaru.json();
+      return dataBaru?.data?.ID_JENIS_OBAT || dataBaru?.ID_JENIS_OBAT || dataBaru?.data?.id || dataBaru?.id;
+    }
+
+    async function saveObat() {
+      const id = getQueryParam("id");
+      if (!id) {
+        showError("ID obat tidak ditemukan pada URL.");
+        return;
+      }
+
+      const nama = document.getElementById("namaObat").value.trim();
+      const jenisInput = document.getElementById("jenisObat").value.trim();
+      const stok = parseNumber(document.getElementById("stok").value);
+      const hargaJual = parseNumber(document.getElementById("hargaJual").value);
+      const hargaBeli = parseNumber(document.getElementById("hargaBeli").value);
+      const expired = document.getElementById("Kadaluwarsa").value;
+
+      if (!nama || !jenisInput || !stok || !hargaJual || !hargaBeli || !expired) {
+        alert("Mohon lengkapi semua field formulir obat terlebih dahulu.");
+        return;
+      }
+
+      try {
+        const idJenisObat = await findOrCreateJenis(jenisInput);
+
+        const payload = {
+          ID_JENIS_OBAT: parseInt(idJenisObat, 10),
+          NAMA_OBAT: nama,
+          STOK: stok,
+          EXPIRED_DATE: expired,
+          HARGA_JUAL: hargaJual,
+          HARGA_BELI: hargaBeli
+        };
+
+        const response = await fetch(`${API_BASE}/obat/${encodeURIComponent(id)}`, {
+          method: "PUT",
+          headers: {
+            "Accept": "application/json",
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(payload)
+        });
+
+        if (!response.ok) {
+          const errData = await response.json().catch(() => ({}));
+          throw new Error(errData.message || `Gagal memperbarui obat (HTTP ${response.status})`);
+        }
+
+        const popup = document.getElementById("popupSukses");
+        if (popup) {
+          popup.classList.add("show");
+        }
+
+        setTimeout(() => {
+          window.location.replace("Admin_Apotik.html");
+        }, 2000);
+
+      } catch (error) {
+        showError("Gagal menyimpan data obat: " + error.message);
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+      const form = document.getElementById("formEditObat");
+      if (form) {
+        form.addEventListener("submit", function(e) {
+          e.preventDefault();
+          saveObat();
+        });
+      }
+      loadObat();
+    });
+  </script>
+
+</body>
+</html>

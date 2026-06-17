@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Operator Apotik</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root{
+            --primary:#005F6B;
+            --secondary:#36D6C4;
+            --bg:#F4F5F7;
+            --card:#FFFFFF;
+            --border:#E5E7EB;
+            --text:#1F2937;
+            --muted:#6B7280;
+            --warning:#F4B400;
+            --success:#1DB89A;
+            --danger:#F12828;
+        }
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:'Poppins',sans-serif;
+        }
+        body{
+            background:#ECECEC;
+            display:flex;
+            min-height:100vh;
+        }
+        .sidebar{
+            width:220px;
+            background:#F8F8F8;
+            padding:20px;
+            display:flex;
+            flex-direction:column;
+            position:fixed;
+            left:0;
+            top:0;
+            bottom:0;
+            z-index: 999; /* PERBAIKAN: Menaikkan lapisan sidebar agar tombol bisa diklik */
+        }
+        .logo{
+            margin-bottom:20px;
+            display:flex;
+            justify-content:center;
+        }
+        .logo img{
+            width:120px;
+        }
+        .top-sidebar{
+            display:flex;
+            flex-direction:column;
+            gap:18px;
+        }
+        .menu-box{
+            background:#fff;
+            padding:16px 18px;
+            border-radius:10px;
+            display:flex;
+            align-items:center;
+            gap:14px;
+            color:#005F6B;
+            font-weight:600;
+            box-shadow:0 3px 8px rgba(0,0,0,0.10);
+            cursor:pointer;
+            transition:.2s;
+        }
+        .menu-box:hover{
+            transform:translateY(-2px);
+        }
+        .menu-icon{
+            width:20px;
+            height:20px;
+        }
+        .menu-title{
+            font-size:13px;
+        }
+        .logout{
+            margin-top:auto;
+            border:none;
+            background:red;
+            color:white;
+            padding:13px;
+            border-radius:8px;
+            font-weight:600;
+            cursor:pointer;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            gap:10px;
+            box-shadow:0 3px 8px rgba(255,0,0,.25);
+            transition: .2s;
+            position: relative;
+            z-index: 1000; /* PERBAIKAN: Memastikan tombol berada di posisi paling atas */
+        }
+        .logout:hover {
+            background: #cc0000;
+            transform: translateY(-2px);
+        }
+        .logout img{
+            width:16px;
+        }
+        .main{
+            flex:1;
+            margin-left:220px;
+            padding:18px 24px;
+        }
+        .wrapper{
+            background:#F3F3F3;
+            border-radius:24px;
+            padding:18px 22px;
+        }
+        .header{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+        }
+        .header-title{
+            font-size:17px;
+            font-weight:700;
+            color:#222;
+        }
+        .header-sub{
+            font-size:11px;
+            color:#9CA3AF;
+        }
+        .profile{
+            display:flex;
+            align-items:center;
+            gap:12px;
+        }
+        .profile img{
+            width:45px;
+            height:45px;
+            border-radius:50%;
+            object-fit:cover;
+        }
+        .profile-text{
+            font-size:12px;
+            line-height:1.4;
+        }
+        .profile-text strong{
+            font-size:13px;
+        }
+        .big-card{
+            margin-top:18px;
+            background:var(--primary);
+            border-radius:22px;
+            padding:24px 28px;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            color:white;
+            box-shadow:0 10px 20px rgba(0,0,0,0.15);
+        }
+        .big-left small{
+            color:#58D8C8;
+            font-size:15px;
+            font-weight:600;
+            }
+        .big-left h1{
+            font-size:72px;
+            line-height:1;
+            margin-top:2px;
+        }
+        .big-left p{
+            margin-top:6px;
+            font-size:25px;
+            font-weight:500;
+        }
+        .badge{
+            display:inline-block;
+            margin-top:12px;
+            background:#36D6C4;
+            padding:5px 14px;
+            border-radius:10px;
+            font-size:13px;
+            font-weight:500;
+        }
+        .actions{
+            display:flex;
+            gap:12px;
+        }
+        .action-btn{
+            width:110px;
+            height:110px;
+            border-radius:12px;
+            border:none;
+            cursor:pointer;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            overflow:hidden;
+        }
+        .action-btn.white{
+            background:white;
+            color:#2FCAB7;
+            border:3px solid #2FCAB7;
+        }
+        .action-btn.green{
+            background:#43D6C4;
+        }
+        .action-btn.red{
+            background:#EB1D1D;
+            font-size:18px;
+        }
+        .action-icon{
+            width:110px;
+            height:110px;
+            object-fit:contain;
+        }
+        .icon-panggil{
+            width:137px;
+            height:137px;
+        }
+        .icon-selesai{
+            width:110px;
+            height:110px;
+        }
+        .stats{
+            display:flex;
+            gap:20px;
+            margin-top:20px;
+        }
+        .stat{
+            flex:1;
+            background:white;
+            padding:16px 20px;
+            border-radius:18px;
+            box-shadow:0 4px 10px rgba(0,0,0,.08);
+        }
+        .stat-title{
+            color:#38C8B4;
+            font-weight:600;
+            font-size:14px;
+        }
+        .stat h2{
+            font-size:42px;
+            line-height:1.1;
+        }
+        .stat small{
+            color:#777;
+        }
+        .orange{ color:#F4B400; }
+        .green{ color:#009C8C; }
+        .content{
+            margin-top:18px;
+            display:flex;
+            gap:18px;
+        }
+        .card{
+            background:white;
+            border-radius:14px;
+            padding:14px;
+            box-shadow:0 4px 10px rgba(0,0,0,.08);
+        }
+        .list{ flex:2.3; }
+        .skip{ flex:1.2; }
+        .card-header{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            margin-bottom:12px;
+        }
+        .card-header h4{
+            font-size:14px;
+            font-weight:500;
+        }
+        .tag{
+            background:#43D6C4;
+            color:white;
+            padding:3px 12px;
+            border-radius:12px;
+            font-size:11px;
+        }
+        .item{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            border:1px solid #D9E1E7;
+            border-radius:10px;
+            padding:10px 12px;
+            margin-bottom:12px;
+        }
+        .item.active{
+            background:#EAF8F7;
+            border:1px solid #6CCFC4;
+        }
+        .left{
+            display:flex;
+            align-items:center;
+            gap:14px;
+        }
+        .kode{
+            width:48px;
+            height:48px;
+            background:#005F6B;
+            border-radius:8px;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            color:white;
+            font-weight:700;
+            font-size:20px;
+        }
+        .info .nama{
+            font-size:13px;
+            font-weight:700;
+            color:#005F6B;
+        }
+        .info .resep{
+            font-size:12px;
+            color:#34BFAE;
+        }
+        .info .obat{
+            font-size:11px;
+            color:#9CA3AF;
+        }
+        .status{
+            padding:5px 12px;
+            border-radius:12px;
+            font-size:11px;
+            font-weight:600;
+        }
+        .dipanggil{
+            background:#CCFBF1;
+            color:#00796B;
+        }
+        .menunggu{
+            background:#FEF3C7;
+            color:#A16207;
+        }
+        .btn-recall {
+            background: #009C8C;
+            color: white;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .btn-recall:hover {
+            background: #005F6B;
+        }
+        .skip-top{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            margin-bottom:10px;
+        }
+        .skip-label{
+            background:#FF5B5B;
+            color:white;
+            padding:3px 12px;
+            border-radius:10px;
+            font-size:11px;
+        }
+        .skip-count{
+            background:#FF5B5B;
+            width:18px;
+            height:18px;
+            border-radius:50%;
+            color:white;
+            font-size:11px;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+        }
+    </style>
+</head>
+<body>
+
+<div class="sidebar">
+    <div>
+        <div class="logo">
+            <img src="../img/Logo Rs.png" alt="Logo RS">
+        </div>
+        <div class="top-sidebar">
+            <div class="menu-box" onclick="window.location.href='petugas_apotik.html'">
+                <img src="../img/Rumah.png" class="menu-icon" alt="Dashboard Icon">
+                <div class="menu-title">Dashboard</div>
+            </div>
+            <div class="menu-box" onclick="window.location.href='e-resep.html'">
+                <img src="../img/e-resep.png" class="menu-icon" alt="E-Resep Icon">
+                <div class="menu-title">E-Resep</div>
+            </div>
+        </div>
+    </div>
+    <button class="logout" onclick="logoutKeLoginHalaman()">
+        <img src="../img/panah lg.png" alt="Logout Icon">Log Out
+    </button>
+</div>
+
+<div class="main">
+    <div class="wrapper">
+        <div class="header">
+            <div>
+                <div class="header-title">Pemanggilan Antrian Obat</div>
+                <div class="header-sub">Antrian Obat</div>
+            </div>
+            <div class="profile">
+                <img src="../img/Foto Admin.png" alt="Foto Profil">
+                <div class="profile-text">
+                    <strong>Petugas Apotik</strong><br>
+                    Mutia Amelia
+                </div>
+            </div>
+        </div>
+
+        <div class="big-card">
+            <div class="big-left">
+                <small id="active-status">Sedang Di Panggil</small>
+                <h1 id="active-kode">-</h1>
+                <p id="active-nama">Tidak Ada Antrian</p>
+                <div class="badge" id="active-resep">Resep #-</div>
+            </div>
+
+            <div class="actions">
+                <button class="action-btn white" onclick="panggilSuara()" title="Panggil Ulang">
+                    <img src="../img/Panggil Ulang.png" class="action-icon icon-panggil" alt="Panggil Ulang">
+                </button>
+                <button class="action-btn green" onclick="selesaiDanLanjut()" title="Selesai & Lanjut">
+                    <img src="../img/selesailanjut.png" class="action-icon icon-selesai" alt="Selesai Lanjut">
+                </button>
+                <button class="action-btn red" onclick="skipPasien()" title="Skip Pasien">
+                    <img src="../img/Skip.png" class="action-icon" alt="Skip">
+                </button>
+            </div>
+        </div>
+
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-title">Total Antrian</div>
+                <h2 id="stat-total">0</h2>
+                <small>hari ini</small>
+            </div>
+            <div class="stat">
+                <div class="stat-title">Menunggu</div>
+                <h2 class="orange" id="stat-menunggu">0</h2>
+                <small>belum dipanggil</small>
+            </div>
+            <div class="stat">
+                <div class="stat-title">Selesai</div>
+                <h2 class="green" id="stat-selesai">0</h2>
+                <small>obat diserahkan</small>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="card list">
+                <div class="card-header">
+                    <h4>Daftar Antrian Resep Tersedia</h4>
+                    <div class="tag" id="badge-menunggu">0 Menunggu</div>
+                </div>
+                <div id="antrian-container"></div>
+            </div>
+
+            <div class="card skip">
+                <div class="skip-top">
+                    <div class="skip-label">Skip</div>
+                    <div class="skip-count" id="stat-skip">0</div>
+                </div>
+                <div id="skip-container"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+const API_BASE = "https://farmasi4b06.vps-poliban.my.id/api";
+let dataAntrian = [];
+let idPasienAktif = "";
+
+function initData() {
+    loadAntrianFromAPI();
+}
+
+async function loadAntrianFromAPI() {
+    try {
+        const response = await fetch(`${API_BASE}/antrian-pengambilan-obat`, {
+            headers: { "Accept": "application/json" }
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+        }
+
+        const result = await response.json();
+        const antrianList = result.data || result || [];
+
+        // Transform API response to local format
+        dataAntrian = antrianList.map(item => ({
+            idAntrian: item.ID_ANTRIAN || item.id_antrian || item.id,
+            idResep: item.ID_RESEP || item.id_resep,
+            kode: item.NOMOR_ANTRIAN || item.nomor_antrian || `A-${String(item.ID_ANTRIAN).padStart(3, '0')}`,
+            nama: item.NAMA_PASIEN || item.nama_pasien || "Pasien",
+            resep: `Resep #${item.ID_RESEP || item.id_resep}`,
+            obat: item.DAFTAR_OBAT || item.obat || "Obat",
+            status: mapStatusFromAPI(item.STATUS || item.status)
+        }));
+
+        // Find first active patient or first waiting
+        const active = dataAntrian.find(p => p.status === "Dipanggil");
+        if (active) {
+            idPasienAktif = active.kode;
+        } else {
+            const waiting = dataAntrian.find(p => p.status === "Menunggu");
+            if (waiting) {
+                idPasienAktif = waiting.kode;
+            }
+        }
+
+        updateDashboard();
+    } catch (error) {
+        console.error("Gagal memuat antrian dari API:", error);
+        // Fallback to local demo data if API fails
+        dataAntrian = [
+            { idAntrian: 1, idResep: 3, kode: "A03", nama: "Muhammad Khairi", resep: "Resep #003", obat: "Mylanta, Cefadroxil", status: "Skip" },
+            { idAntrian: 2, idResep: 4, kode: "A04", nama: "Muhammad Sumbul", resep: "Resep #004", obat: "Mylanta, Diapet", status: "Dipanggil" },
+            { idAntrian: 3, idResep: 5, kode: "A05", nama: "Aziz Gagap", resep: "Resep #005", obat: "Enervon-C, Sangobion", status: "Menunggu" },
+            { idAntrian: 4, idResep: 6, kode: "A06", nama: "Ayu Ting Ting", resep: "Resep #006", obat: "Mylanta, Diapet", status: "Menunggu" }
+        ];
+        idPasienAktif = "A04";
+        updateDashboard();
+    }
+}
+
+function mapStatusFromAPI(apiStatus) {
+    const status = String(apiStatus).toUpperCase();
+    if (status === "MENUNGGU") return "Menunggu";
+    if (status === "DIPROSES") return "Dipanggil";
+    if (status === "SELESAI") return "Selesai";
+    if (status === "SKIP") return "Skip";
+    return "Menunggu";
+}
+
+function mapStatusToAPI(localStatus) {
+    if (localStatus === "Menunggu") return "MENUNGGU";
+    if (localStatus === "Dipanggil") return "DIPROSES";
+    if (localStatus === "Selesai") return "SELESAI";
+    if (localStatus === "Skip") return "SKIP";
+    return "MENUNGGU";
+}
+
+async function updateAntrianStatusAPI(idAntrian, newStatus) {
+    try {
+        const apiStatus = mapStatusToAPI(newStatus);
+        const response = await fetch(`${API_BASE}/antrian-pengambilan-obat/${idAntrian}`, {
+            method: "PUT",
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ STATUS: apiStatus })
+        });
+
+        if (!response.ok) {
+            const errData = await response.json().catch(() => ({}));
+            throw new Error(errData.message || `HTTP ${response.status}`);
+        }
+
+        console.log(`Status antrian ${idAntrian} diperbarui ke ${apiStatus}`);
+        return true;
+    } catch (error) {
+        console.error("Gagal memperbarui status antrian:", error);
+        return false;
+    }
+}
+
+function updateDashboard() {
+    const antrianContainer = document.getElementById('antrian-container');
+    const skipContainer = document.getElementById('skip-container');
+    
+    antrianContainer.innerHTML = "";
+    skipContainer.innerHTML = "";
+
+    let total = dataAntrian.length;
+    let menunggu = 0;
+    let selesai = 0;
+    let skipCount = 0;
+
+    let pasienAktif = dataAntrian.find(p => p.kode === idPasienAktif && p.status === "Dipanggil");
+
+    if (!pasienAktif) {
+        let calonBerikutnya = dataAntrian.find(p => p.status === "Menunggu");
+        if (calonBerikutnya) {
+            calonBerikutnya.status = "Dipanggil";
+            idPasienAktif = calonBerikutnya.kode;
+            pasienAktif = calonBerikutnya;
+            simpanKeStorage();
+        }
+    }
+
+    if (pasienAktif) {
+        document.getElementById('active-status').innerText = "Sedang Di Panggil";
+        document.getElementById('active-kode').innerText = pasienAktif.kode;
+        document.getElementById('active-nama').innerText = pasienAktif.nama;
+        document.getElementById('active-resep').innerText = pasienAktif.resep;
+    } else {
+        document.getElementById('active-status').innerText = "Selesai";
+        document.getElementById('active-kode').innerText = "-";
+        document.getElementById('active-nama').innerText = "Tidak Ada Antrian Aktif";
+        document.getElementById('active-resep').innerText = "Resep #-";
+        idPasienAktif = null;
+    }
+
+    dataAntrian.forEach(pasien => {
+        if (pasien.status === "Menunggu") menunggu++;
+        if (pasien.status === "Selesai") selesai++;
+        if (pasien.status === "Skip") skipCount++;
+
+        if (pasien.status === "Dipanggil" || pasien.status === "Menunggu") {
+            let itemHtml = `
+                <div class="item ${pasien.kode === idPasienAktif ? 'active' : ''}">
+                    <div class="left">
+                        <div class="kode">${pasien.kode}</div>
+                        <div class="info">
+                            <div class="nama">${pasien.nama}</div>
+                            <div class="resep">${pasien.resep}</div>
+                            <div class="obat">${pasien.obat}</div>
+                        </div>
+                    </div>
+                    <div class="status ${pasien.status === 'Dipanggil' ? 'dipanggil' : 'menunggu'}">
+                        ${pasien.status}
+                    </div>
+                </div>
+            `;
+            antrianContainer.innerHTML += itemHtml;
+        } 
+        else if (pasien.status === "Skip") {
+            let itemHtml = `
+                <div class="item">
+                    <div class="left">
+                        <div class="kode" style="background:#FF5B5B;">${pasien.kode}</div>
+                        <div class="info">
+                            <div class="nama">${pasien.nama}</div>
+                            <div class="resep">${pasien.resep}</div>
+                        </div>
+                    </div>
+                    <button class="btn-recall" onclick="panggilKembaliSkip('${pasien.kode}')">Panggil</button>
+                </div>
+            `;
+            skipContainer.innerHTML += itemHtml;
+        }
+    });
+
+    document.getElementById('stat-total').innerText = total;
+    document.getElementById('stat-menunggu').innerText = menunggu;
+    document.getElementById('stat-selesai').innerText = selesai;
+    document.getElementById('stat-skip').innerText = skipCount;
+    document.getElementById('badge-menunggu').innerText = `${menunggu} Menunggu`;
+}
+
+function panggilSuara() {
+    let pasienAktif = dataAntrian.find(p => p.kode === idPasienAktif);
+    if (!pasienAktif) return;
+
+    let kodeDibaca = pasienAktif.kode.split("").join(" "); 
+    let teks = `Nomor Antrian, ${kodeDibaca}. Atas nama, ${pasienAktif.nama}. Silahkan menuju ke loket apotik.`;
+
+    if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel(); 
+        let speech = new SpeechSynthesisUtterance(teks);
+        speech.lang = 'id-ID'; 
+        speech.rate = 0.9;     
+        speech.pitch = 1;
+        window.speechSynthesis.speak(speech);
+    }
+}
+
+async function selesaiDanLanjut() {
+    let pasienAktif = dataAntrian.find(p => p.kode === idPasienAktif);
+    if (!pasienAktif) {
+        alert("Tidak ada pasien yang sedang aktif.");
+        return;
+    }
+
+    // Tandai pasien aktif selesai
+    const updateSuccess = await updateAntrianStatusAPI(pasienAktif.idAntrian, "Selesai");
+    if (!updateSuccess) {
+        alert("Gagal memperbarui status pasien.");
+        return;
+    }
+
+    pasienAktif.status = "Selesai";
+
+    // Cari pasien berikutnya yang menunggu
+    let pasienBerikutnya = dataAntrian.find(p => p.status === "Menunggu");
+    
+    if (pasienBerikutnya) {
+        const nextSuccess = await updateAntrianStatusAPI(pasienBerikutnya.idAntrian, "Dipanggil");
+        if (nextSuccess) {
+            pasienBerikutnya.status = "Dipanggil";
+            idPasienAktif = pasienBerikutnya.kode;
+            updateDashboard();
+            setTimeout(() => { panggilSuara(); }, 300);
+        }
+    } else {
+        idPasienAktif = null;
+        updateDashboard();
+        alert("Semua antrian yang menunggu telah selesai diproses!");
+    }
+}
+
+async function skipPasien() {
+    let pasienAktif = dataAntrian.find(p => p.kode === idPasienAktif);
+    if (!pasienAktif) return;
+
+    // Update pasien aktif status ke Skip
+    const skipSuccess = await updateAntrianStatusAPI(pasienAktif.idAntrian, "Skip");
+    if (!skipSuccess) {
+        alert("Gagal meng-skip pasien.");
+        return;
+    }
+
+    pasienAktif.status = "Skip";
+
+    let pasienBerikutnya = dataAntrian.find(p => p.status === "Menunggu");
+
+    if (pasienBerikutnya) {
+        const nextSuccess = await updateAntrianStatusAPI(pasienBerikutnya.idAntrian, "Dipanggil");
+        if (nextSuccess) {
+            pasienBerikutnya.status = "Dipanggil";
+            idPasienAktif = pasienBerikutnya.kode;
+            updateDashboard();
+            setTimeout(() => { panggilSuara(); }, 300);
+        }
+    } else {
+        idPasienAktif = null;
+        updateDashboard();
+        alert("Pasien di-skip. Tidak ada antrian menunggu tersisa.");
+    }
+}
+
+async function panggilKembaliSkip(kodePasien) {
+    let pasienAktifSaatIni = dataAntrian.find(p => p.kode === idPasienAktif && p.status === "Dipanggil");
+    if (pasienAktifSaatIni) {
+        const updateSuccess = await updateAntrianStatusAPI(pasienAktifSaatIni.idAntrian, "Menunggu");
+        if (updateSuccess) {
+            pasienAktifSaatIni.status = "Menunggu";
+        }
+    }
+
+    let pasienSkip = dataAntrian.find(p => p.kode === kodePasien);
+    if (pasienSkip) {
+        const recallSuccess = await updateAntrianStatusAPI(pasienSkip.idAntrian, "Dipanggil");
+        if (recallSuccess) {
+            pasienSkip.status = "Dipanggil";
+            idPasienAktif = pasienSkip.kode;
+            updateDashboard();
+            setTimeout(() => { panggilSuara(); }, 300);
+        }
+    }
+}
+
+// PERBAIKAN STRUKTUR JALUR LOGOUT AGAR LEBIH AKURAT & AMAN
+function logoutKeLoginHalaman() {
+    // Kami menggunakan window.location.replace agar halaman login menggantikan halaman dashboard (tidak bisa di-back)
+    window.location.replace('../Login/login.html'); 
+}
+
+// Refresh antrian setiap 5 detik dari API
+setInterval(() => {
+    loadAntrianFromAPI();
+}, 5000);
+
+window.onload = function() {
+    initData();
+};
+</script>
+</body>
+</html>
