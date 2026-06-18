@@ -17,7 +17,7 @@
     }
 
     body{
-      background:#111;
+      
       display:flex;
       justify-content:center;
       align-items:center;
@@ -77,6 +77,18 @@
 
     .role button:hover{
       background:#014852;
+    }
+
+    .role button:disabled{
+      cursor:not-allowed;
+      opacity:1;
+      background:#005f6b;
+      color:white;
+      pointer-events:none;
+    }
+
+    .role button:disabled:hover{
+      background:#005f6b;
     }
 
     .role button.active{
@@ -218,7 +230,7 @@
         <h1>Masuk</h1>
 
         <div class="role">
-          <button type="button" id="btn-Pasien" onclick="pilihRole('Pasien')">Pasien</button>
+          <button type="button" id="btn-Pasien" disabled>Pasien</button>
           <button type="button" id="btn-Petugas" onclick="pilihRole('Petugas')">Petugas</button>
         </div>
 
