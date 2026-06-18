@@ -473,10 +473,17 @@
 <script>
 const API_BASE = "https://farmasi4b06.vps-poliban.my.id/api";
 let dataAntrian = [];
-let idPasienAktif = "";
+let idPasienAktif = null;
 
 function initData() {
     loadAntrianFromAPI();
+}
+
+function normalizeAntrianResponse(result) {
+    if (Array.isArray(result)) {
+        return result;
+    }
+    return result && (result.data || result.list || result.antrian) ? (result.data || result.list || result.antrian) : [];
 }
 
 async function loadAntrianFromAPI() {
@@ -490,7 +497,7 @@ async function loadAntrianFromAPI() {
         }
 
         const result = await response.json();
-        const antrianList = result.data || result || [];
+        const antrianList = normalizeAntrianResponse(result);
 
         // Transform API response to local format
         dataAntrian = antrianList.map(item => ({
@@ -501,18 +508,14 @@ async function loadAntrianFromAPI() {
             resep: `Resep #${item.ID_RESEP || item.id_resep}`,
             obat: item.DAFTAR_OBAT || item.obat || "Obat",
             status: mapStatusFromAPI(item.STATUS || item.status)
-        }));
+        })).sort((a, b) => {
+            const order = { Dipanggil: 0, Menunggu: 1, Selesai: 2, Skip: 3 };
+            if (order[a.status] !== order[b.status]) return order[a.status] - order[b.status];
+            return a.kode.localeCompare(b.kode, undefined, { numeric: true, sensitivity: 'base' });
+        });
 
-        // Find first active patient or first waiting
         const active = dataAntrian.find(p => p.status === "Dipanggil");
-        if (active) {
-            idPasienAktif = active.kode;
-        } else {
-            const waiting = dataAntrian.find(p => p.status === "Menunggu");
-            if (waiting) {
-                idPasienAktif = waiting.kode;
-            }
-        }
+        idPasienAktif = active ? active.kode : null;
 
         updateDashboard();
     } catch (error) {
@@ -530,11 +533,11 @@ async function loadAntrianFromAPI() {
 }
 
 function mapStatusFromAPI(apiStatus) {
-    const status = String(apiStatus).toUpperCase();
-    if (status === "MENUNGGU") return "Menunggu";
-    if (status === "DIPROSES") return "Dipanggil";
-    if (status === "SELESAI") return "Selesai";
-    if (status === "SKIP") return "Skip";
+    const status = String(apiStatus || "").toUpperCase();
+    if (status.includes("MENUNGGU")) return "Menunggu";
+    if (status.includes("DIPROSES") || status.includes("DIPANGGIL") || status.includes("DIPANGGIL")) return "Dipanggil";
+    if (status.includes("SELESAI")) return "Selesai";
+    if (status.includes("SKIP")) return "Skip";
     return "Menunggu";
 }
 
@@ -583,29 +586,27 @@ function updateDashboard() {
     let selesai = 0;
     let skipCount = 0;
 
-    let pasienAktif = dataAntrian.find(p => p.kode === idPasienAktif && p.status === "Dipanggil");
+    const activeDipanggil = dataAntrian.find(p => p.status === "Dipanggil");
+    const nextWaiting = dataAntrian.find(p => p.status === "Menunggu");
+    const pasienAktif = activeDipanggil || nextWaiting || null;
+    const activeLabel = activeDipanggil ? "Sedang Di Panggil" : nextWaiting ? "Menunggu Dipanggil" : null;
 
-    if (!pasienAktif) {
-        let calonBerikutnya = dataAntrian.find(p => p.status === "Menunggu");
-        if (calonBerikutnya) {
-            calonBerikutnya.status = "Dipanggil";
-            idPasienAktif = calonBerikutnya.kode;
-            pasienAktif = calonBerikutnya;
-            simpanKeStorage();
-        }
+    if (activeDipanggil) {
+        idPasienAktif = activeDipanggil.kode;
+    } else {
+        idPasienAktif = null;
     }
 
     if (pasienAktif) {
-        document.getElementById('active-status').innerText = "Sedang Di Panggil";
+        document.getElementById('active-status').innerText = activeLabel;
         document.getElementById('active-kode').innerText = pasienAktif.kode;
         document.getElementById('active-nama').innerText = pasienAktif.nama;
         document.getElementById('active-resep').innerText = pasienAktif.resep;
     } else {
-        document.getElementById('active-status').innerText = "Selesai";
+        document.getElementById('active-status').innerText = "Tidak Ada Antrian Aktif";
         document.getElementById('active-kode').innerText = "-";
-        document.getElementById('active-nama').innerText = "Tidak Ada Antrian Aktif";
+        document.getElementById('active-nama').innerText = "Tidak Ada Antrian";
         document.getElementById('active-resep').innerText = "Resep #-";
-        idPasienAktif = null;
     }
 
     dataAntrian.forEach(pasien => {
@@ -613,26 +614,32 @@ function updateDashboard() {
         if (pasien.status === "Selesai") selesai++;
         if (pasien.status === "Skip") skipCount++;
 
-        if (pasien.status === "Dipanggil" || pasien.status === "Menunggu") {
-            let itemHtml = `
-                <div class="item ${pasien.kode === idPasienAktif ? 'active' : ''}">
-                    <div class="left">
-                        <div class="kode">${pasien.kode}</div>
-                        <div class="info">
-                            <div class="nama">${pasien.nama}</div>
-                            <div class="resep">${pasien.resep}</div>
-                            <div class="obat">${pasien.obat}</div>
-                        </div>
-                    </div>
-                    <div class="status ${pasien.status === 'Dipanggil' ? 'dipanggil' : 'menunggu'}">
-                        ${pasien.status}
+        const statusClass = pasien.status === 'Dipanggil'
+            ? 'dipanggil'
+            : pasien.status === 'Menunggu'
+                ? 'menunggu'
+                : pasien.status === 'Selesai'
+                    ? 'selesai'
+                    : 'skip';
+
+        const itemHtml = `
+            <div class="item ${pasien.status === 'Dipanggil' ? 'active' : ''}">
+                <div class="left">
+                    <div class="kode">${pasien.kode}</div>
+                    <div class="info">
+                        <div class="nama">${pasien.nama}</div>
+                        <div class="resep">${pasien.resep}</div>
+                        <div class="obat">${pasien.obat}</div>
                     </div>
                 </div>
-            `;
-            antrianContainer.innerHTML += itemHtml;
-        } 
-        else if (pasien.status === "Skip") {
-            let itemHtml = `
+                <div class="status ${statusClass}">
+                    ${pasien.status}
+                </div>
+            </div>
+        `;
+
+        if (pasien.status === "Skip") {
+            const skipHtml = `
                 <div class="item">
                     <div class="left">
                         <div class="kode" style="background:#FF5B5B;">${pasien.kode}</div>
@@ -642,9 +649,12 @@ function updateDashboard() {
                         </div>
                     </div>
                     <button class="btn-recall" onclick="panggilKembaliSkip('${pasien.kode}')">Panggil</button>
+                    <div class="status skip">${pasien.status}</div>
                 </div>
             `;
-            skipContainer.innerHTML += itemHtml;
+            skipContainer.innerHTML += skipHtml;
+        } else {
+            antrianContainer.innerHTML += itemHtml;
         }
     });
 
