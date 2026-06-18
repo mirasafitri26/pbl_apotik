@@ -253,6 +253,9 @@
   </div>
 
 <script>
+  const API_BASE = (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
+    ? 'http://localhost:5000/api'
+    : 'https://farmasi4b06.vps-poliban.my.id/api';
   function togglePassword() {
     const passwordInput = document.getElementById("password");
     passwordInput.type = passwordInput.type === "password" ? "text" : "password";
@@ -272,7 +275,7 @@
   }
 
   function login(){
-    const email = document.querySelector('input[type="email"]').value;
+    const email = document.querySelector('input[type="email"]').value.trim();
     const password = document.getElementById("password").value;
 
     if(email === "" || password === ""){
@@ -285,30 +288,71 @@
       return;
     }
 
-    // Validasi Multi-Akun untuk Role Petugas
-    if(roleDipilih === "Petugas"){
-      
-      if(email === "adminapotik@gmail.com" && password === "uusganteng123"){
-        alert("Login berhasil sebagai Admin Petugas!");
-        // PERBAIKAN PATH: Keluar folder login, masuk ke folder Admin Apotik
-        window.location.href = "../Admin Apotik/dashboard_apotik.html";
-        return;
-        
-      } else if(email === "petugasapotik@gmail.com" && password === "uusganteng123"){
-        alert("Login berhasil sebagai Petugas Apotik!");
-        // PERBAIKAN PATH: Keluar folder login, masuk ke folder Petugas Apotik
-        window.location.href = "../Petugas Apotik/petugas_apotik.html";
-        return;
-        
-      } else {
-        alert("Email atau Password Petugas salah!");
-        return;
-      }
-      
-    }
+    // Try server authentication, fallback to local checks on failure
+    (async () => {
+      try {
+        const payload = { email, password, role: roleDipilih };
+        const resp = await fetch(`${API_BASE}/auth/login`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify(payload)
+        });
 
-    // Default untuk login Pasien
-    alert("Login berhasil sebagai " + roleDipilih);
+        if (!resp.ok) {
+          throw new Error(`HTTP ${resp.status}`);
+        }
+
+        const data = await resp.json();
+
+        // Expected shape: { success: true, role: 'Petugas'|'Pasien'|'Admin', token: '...' }
+        if (data && (data.success === true || data.status === 'success')) {
+          // Save token if provided
+          if (data.token) localStorage.setItem('api_token', data.token);
+
+          const serverRole = (data.role || data.role_user || data.user_role || '').toLowerCase();
+          // Redirect based on role
+          if (serverRole.includes('admin') || serverRole.includes('petugas') || roleDipilih === 'Petugas'){
+            // Prefer admin dashboard if admin
+            if (serverRole.includes('admin')) {
+              window.location.href = "../Admin Apotik/dashboard_apotik.html";
+            } else {
+              window.location.href = "../Petugas Apotik/petugas_apotik.html";
+            }
+            return;
+          }
+
+          // Default pasien
+          alert('Login berhasil sebagai ' + roleDipilih);
+          return;
+        } else {
+          const message = data && (data.message || data.msg) ? (data.message || data.msg) : 'Login gagal';
+          alert(message);
+          return;
+        }
+
+      } catch (err) {
+        console.warn('API login gagal, mencoba fallback lokal:', err);
+
+        // Fallback: previous local credential checks for Petugas
+        if(roleDipilih === 'Petugas'){
+          if(email === 'adminapotik@gmail.com' && password === 'uusganteng123'){
+            alert('Login berhasil sebagai Admin Petugas! (fallback)');
+            window.location.href = '../Admin Apotik/dashboard_apotik.html';
+            return;
+          } else if(email === 'petugasapotik@gmail.com' && password === 'uusganteng123'){
+            alert('Login berhasil sebagai Petugas Apotik! (fallback)');
+            window.location.href = '../Petugas Apotik/petugas_apotik.html';
+            return;
+          } else {
+            alert('Email atau Password Petugas salah! (fallback)');
+            return;
+          }
+        }
+
+        // Default pasien fallback
+        alert('Login berhasil sebagai ' + roleDipilih + ' (offline)');
+      }
+    })();
   }
 </script>
 </body>
